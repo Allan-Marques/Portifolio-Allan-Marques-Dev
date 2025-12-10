@@ -1,0 +1,2348 @@
+/* CSS/style.css */
+
+/* --- RESET BÁSICO E ESTILOS GLOBAIS --- */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px; /* Base para REM units */
+}
+
+body {
+    font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #36454F; /* Cinza Grafite Escuro */
+    color: #F0F0F0; /* Texto principal claro para contraste */
+    line-height: 1.7;
+    overflow-x: hidden; /* Previne scroll horizontal */
+}
+
+.container {
+    width: 90%;
+    max-width: 1140px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* --- Tipografia --- */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    color: #ffffff; /* Texto branco para todos os cabeçalhos por padrão */
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 0.75rem;
+}
+
+p {
+    margin-bottom: 1rem;
+    color: #bdc3c7; /* Cinza claro para parágrafos */
+}
+
+a {
+    color: #3498db; /* Azul claro para links */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #5dade2;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    padding-bottom: 0.75rem;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background-color: #3498db;
+    border-radius: 2px;
+}
+
+.section-subtitle {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #95a5a6;
+    margin-top: -1rem;
+    margin-bottom: 3rem;
+}
+
+.subsection-title { /* Usado para "Minhas Certificações" por exemplo */
+    font-size: 1.75rem;
+    color: #ffffff;
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    border-bottom: 2px solid #3498db;
+    display: inline-block; /* Para a borda não ocupar a largura toda */
+    padding-bottom: 0.5rem;
+}
+
+/* --- HEADER --- */
+header {
+    background-color: #34495e; /* Azul ardósia / Grafite mais claro que o body */
+    padding: 0.8rem 0; /* Ajustado padding */
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+header h1 {
+    font-size: 2.0rem; /* Reduzido um pouco */
+    margin-bottom: 0.25rem;
+    color: #ffffff;
+}
+
+header .subtitle {
+    font-size: 1.1rem; /* Reduzido um pouco */
+    color: #bdc3c7;
+    font-weight: 300;
+    margin-bottom: 0.8rem; /* Ajustado */
+}
+
+header nav ul {
+    list-style: none;
+}
+
+header nav ul li {
+    display: inline-block;
+    margin: 0 0.5rem;
+}
+
+header nav ul li a {
+    color: #ecf0f1;
+    font-weight: 500;
+    font-size: 0.95rem; /* Levemente ajustado */
+    padding: 0.6rem 1rem;
+    border-radius: 20px;
+    background-color: #4A5568;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+header nav ul li a:hover,
+header nav ul li a.active {
+    background-color: #3498db;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+/* --- BOTÕES GLOBAIS --- */
+.btn { /* Classe base para botões, se necessário */
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    text-align: center;
+}
+.btn-primary { /* Usado para CTAs principais */
+    background-color: #3498db;
+    color: #ffffff;
+}
+.btn-primary:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+.btn-secondary { /* Para botões dentro de cards, por exemplo */
+    background-color: transparent;
+    color: #3498db;
+    border: 2px solid #3498db;
+}
+.btn-secondary:hover {
+    background-color: #3498db;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+
+/* --- Main Content & Sections --- */
+main {
+    /* O header é sticky, então não precisa de padding-top no main */
+}
+
+section {
+    padding: 4rem 0;
+}
+
+/* Hero Section (Apresentação) */
+#apresentacao.hero-section {
+    background-color: #2c3e50;
+    padding: 3rem 0;
+    text-align: center;
+}
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    overflow: hidden;
+    max-width: 720px;
+    margin: 1.5rem auto 2.5rem auto;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 3px solid #3498db;
+}
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 9px;
+}
+#apresentacao p {
+    max-width: 780px;
+    margin: 1rem auto;
+    font-size: 1.05em;
+    text-align: justify;
+    color: #bdc3c7;
+}
+
+/* Cards (Projetos e outros elementos interativos) */
+.cards-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+}
+
+.card, .interactive-card { /* Estilo base para todos os cards interativos */
+    background-color: #34495e;
+    color: #ecf0f1;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: calc(33.333% - 2rem + (2rem / 3)); /* Ajustado para o gap */
+    min-width: 280px;
+    display: flex;
+    flex-direction: column;
+}
+
+.card:hover, .interactive-card:hover { /* Efeito hover unificado */
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+}
+
+.card .card-image { /* Imagem dentro de um card de projeto */
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+.card .card-content { /* Conteúdo de um card de projeto */
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+.card .card-content h3 {
+    font-size: 1.5rem;
+    color: #ffffff;
+    margin-bottom: 0.75rem;
+}
+.card .card-content p {
+    font-size: 0.95rem;
+    color: #bdc3c7;
+    flex-grow: 1;
+    margin-bottom: 1.25rem;
+}
+.card .btn-secondary { /* Botão secundário dentro do card */
+    align-self: flex-start; /* Alinha o botão à esquerda */
+    margin-top: auto; /* Empurra para baixo se houver espaço */
+}
+
+
+/* Habilidades */
+#habilidades {
+    background-color: #2c3e50; /* Fundo diferente para destacar a seção */
+}
+.skills-columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+.skill-category { /* .skill-category também usa .interactive-card para hover */
+    flex: 1;
+    min-width: 280px;
+    background-color: #34495e; /* Fundo das categorias de skill (cards) */
+    padding: 1.5rem;
+    border-radius: 8px;
+    /* box-shadow e transition já vêm de .interactive-card */
+}
+.habilidade-categoria-title {
+    font-size: 1.4rem;
+    color: #ffffff;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+.habilidade-categoria-title i.fas {
+    margin-right: 0.75rem;
+    color: #3498db;
+    font-size: 1.5rem;
+}
+#habilidades ul {
+    list-style: none;
+}
+#habilidades ul li {
+    font-size: 1rem;
+    color: #bdc3c7;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+}
+#habilidades ul li i.fab, #habilidades ul li i.fas {
+    margin-right: 0.75rem;
+    color: #3498db;
+    width: 25px;
+    text-align: center;
+    font-size: 1.1em;
+}
+
+/* Formação & Certificações */
+.formacao-item { /* .formacao-item também usa .interactive-card para hover */
+    background-color: #34495e;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    /* box-shadow e transition já vêm de .interactive-card */
+}
+.formacao-item h3 {
+    font-size: 1.4rem;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+.formacao-item h3 i.fas {
+    margin-right: 0.75rem;
+    color: #3498db;
+    font-size: 1.6rem;
+}
+.formacao-item p {
+    color: #bdc3c7;
+    font-size: 1rem;
+}
+
+/* Carrossel de Certificações Swiper */
+#formacao .subsection-title { /* "Minhas Certificações" */
+    display: block; /* Para centralizar corretamente */
+    text-align: center;
+    border-bottom: none; /* Removida a borda aqui, já que section-title tem */
+    margin-bottom: 1rem;
+}
+.certificacoes-swiper-container {
+    width: 100%;
+    padding-top: 1rem;
+    padding-bottom: 3.5rem;
+    position: relative;
+}
+.certificacoes-swiper-container .swiper-slide { /* .swiper-slide também usa .interactive-card para hover */
+    text-align: center;
+    background: #34495e; /* Mesmo fundo dos outros cards */
+    border-radius: 8px;
+    padding: 1rem;
+    /* box-shadow e transition já vêm de .interactive-card */
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.certificacoes-swiper-container .swiper-slide img {
+    display: block;
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    max-height: 200px;
+    object-fit: contain;
+    border-radius: 6px;
+    margin-bottom: 0.75rem;
+}
+.certification-caption {
+    font-size: 0.9rem;
+    color: #bdc3c7;
+    margin-top: 0.5rem;
+    line-height: 1.3;
+}
+.certificacoes-swiper-container .swiper-button-next,
+.certificacoes-swiper-container .swiper-button-prev {
+    color: #3498db;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    opacity: 0.7;
+}
+.certificacoes-swiper-container .swiper-button-next:hover,
+.certificacoes-swiper-container .swiper-button-prev:hover {
+    transform: scale(1.2);
+    opacity: 1;
+}
+.certificacoes-swiper-container .swiper-button-next::after,
+.certificacoes-swiper-container .swiper-button-prev::after {
+    font-size: 1.8rem !important;
+}
+.certificacoes-swiper-container .swiper-pagination-bullet {
+    background-color: #7f8c8d;
+    opacity: 0.6;
+}
+.certificacoes-swiper-container .swiper-pagination-bullet-active {
+    background-color: #3498db;
+    opacity: 1;
+}
+
+/* Experiência */
+.experiencia-item { /* .experiencia-item também usa .interactive-card para hover */
+    background-color: #34495e;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    /* box-shadow e transition já vêm de .interactive-card */
+}
+.experiencia-item h3 {
+    font-size: 1.4rem;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+.experiencia-item h3 i.fas {
+    margin-right: 0.75rem;
+    color: #3498db;
+    font-size: 1.5rem;
+}
+.experiencia-item p {
+    color: #bdc3c7;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+.experiencia-item ul {
+    list-style: none;
+    padding-left: 0;
+}
+.experiencia-item ul li {
+    color: #bdc3c7;
+    margin-bottom: 0.4rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+.experiencia-item ul li::before {
+    content: '\f105'; /* Ícone de seta para a direita do Font Awesome */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    position: absolute;
+    left: 0;
+    color: #3498db;
+}
+
+/* --- FOOTER --- */
+#contato-footer { /* ID do footer para link de navegação */
+    background-color: #1f2b38; /* Grafite bem escuro para o footer */
+    color: #95a5a6;
+    text-align: center;
+    padding: 3rem 0 1.5rem 0;
+    margin-top: 2rem;
+    border-top: 4px solid #34495e; /* Borda superior com cor do header */
+}
+.footer-content { /* Conteúdo principal do rodapé */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem; /* Espaço entre logo e info */
+    padding-bottom: 2rem;
+}
+.footer-logo-area {
+    margin-bottom: 0; /* Removido margin, gap do flex cuida */
+}
+.footer-logo {
+    max-width: 120px; /* Aumentado um pouco */
+    height: auto;
+    border-radius: 50%;
+    border: 3px solid #3498db;
+    background-color: #ffffff;
+    padding: 5px; /* Pequeno padding interno se a logo for PNG transparente */
+    box-shadow: 0 0 15px rgba(52, 152, 219, 0.5);
+}
+.footer-info {
+    width: 100%;
+}
+.footer-title { /* "Vamos Conversar?" */
+    font-size: 2.2rem; /* Ajustado */
+    margin-bottom: 0.5rem;
+}
+.footer-title::after { /* Remove a linha do section-title padrão se não quiser aqui */
+    display: none;
+}
+.footer-subtitle { /* "Estou disponível..." */
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+.footer-contato-wrapper { /* Agrupa contato direto e redes */
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.footer-contato, .footer-redes {
+    width: 100%;
+}
+.footer-contato h4, .footer-redes h4 {
+    font-size: 1.25rem;
+    color: #ecf0f1;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.footer-contato h4 i, .footer-redes h4 i {
+    margin-right: 0.6rem;
+    color: #3498db;
+}
+
+.footer-contato p a {
+    color: #bdc3c7;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: color 0.3s ease, transform 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.3rem 0;
+}
+.footer-contato p a:hover {
+    color: #3498db;
+    transform: translateX(5px);
+}
+.footer-contato p a i {
+    margin-right: 0.75rem;
+    font-size: 1.3em;
+    width: 25px;
+    text-align: center;
+    color: #3498db; /* Cor mantida para ícones */
+}
+.whatsapp-link i { color: #25D366 !important; } /* Cor específica para WhatsApp */
+.whatsapp-assistente-link i { color: #7289DA !important; } /* Cor para Assistente IA (ex: Discord blue) */
+
+.whatsapp-link:hover i, .whatsapp-assistente-link:hover i { transform: scale(1.1); }
+
+.social-icons-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem; /* Espaço entre ícones sociais */
+}
+.social-icon {
+    color: #bdc3c7;
+    font-size: 1.8rem; /* Tamanho dos ícones sociais */
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+.social-icon:hover {
+    color: #3498db;
+    transform: scale(1.2) rotate(5deg); /* Efeito de rotação sutil */
+}
+
+.footer-bottom {
+    padding-top: 2rem;
+    font-size: 0.9rem;
+    border-top: 1px solid #4A5568;
+    margin-top: 2rem;
+}
+.footer-bottom p {
+    margin-bottom: 0.25rem;
+}
+.footer-bottom .fas.fa-heart, .footer-bottom .fas.fa-mug-hot {
+    color: #3498db;
+    font-size: 1em;
+}
+
+/* --- Media Queries (Responsividade) --- */
+@media (min-width: 768px) { /* Para telas maiores, alinhar logo e info no rodapé */
+    .footer-content {
+        flex-direction: row;
+        align-items: flex-start; /* Alinha ao topo */
+        text-align: left; /* Alinha texto à esquerda */
+    }
+    .footer-logo-area {
+        flex-basis: 200px; /* Largura para a área da logo */
+        margin-right: 2rem; /* Espaço entre logo e info */
+        text-align: center;
+    }
+    .footer-info {
+        flex: 1; /* Ocupa o restante do espaço */
+        text-align: left;
+    }
+    .footer-title, .footer-subtitle,
+    .footer-contato h4, .footer-redes h4 {
+        text-align: left;
+        justify-content: flex-start;
+    }
+    .footer-contato-wrapper {
+        flex-direction: row; /* Contato e redes lado a lado */
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+    .social-icons-wrapper {
+        justify-content: flex-start;
+    }
+}
+
+
+@media (max-width: 992px) { /* Tablets e menores */
+    .section-title {
+        font-size: 2.2rem;
+    }
+    .card, .interactive-card {
+        width: calc(50% - 1rem); /* 2 colunas, ajustado para o gap */
+    }
+    .skills-columns {
+        gap: 1.5rem;
+    }
+    .footer-contato-wrapper {
+        flex-direction: column; /* Empilha contato e redes em telas médias se necessário */
+        align-items: center; /* Centraliza quando empilhado */
+    }
+    .footer-contato, .footer-redes {
+        text-align: center;
+    }
+    .footer-contato h4, .footer-redes h4 {
+        justify-content: center;
+    }
+    .social-icons-wrapper {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) { /* Mobile L e menores */
+    html {
+        font-size: 15px;
+    }
+    header {
+        padding: 0.8rem 0.5rem;
+    }
+    header nav ul {
+        /* Considerar um menu hamburguer aqui para muitos itens */
+    }
+    header nav ul li {
+        margin: 0.25rem;
+    }
+    header nav ul li a {
+        padding: 0.5rem 0.8rem;
+    }
+    .section-title {
+        font-size: 2rem;
+    }
+    .section-subtitle {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+        padding: 0 10px;
+    }
+    .card, .interactive-card { /* 1 card por linha em mobile */
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .skills-columns {
+        flex-direction: column;
+    }
+    .video-container {
+        max-width: 95%;
+    }
+    .certificacoes-swiper-container .swiper-button-next,
+    .certificacoes-swiper-container .swiper-button-prev {
+        display: none; /* Esconde setas em mobile, usa só paginação/swipe */
+    }
+    .footer-content { /* Garante empilhamento no mobile */
+        flex-direction: column;
+        align-items: center;
+    }
+    .footer-logo-area {
+        margin-right: 0; /* Sem margem lateral no mobile */
+        margin-bottom: 1.5rem;
+    }
+    .footer-info, .footer-title, .footer-subtitle,
+    .footer-contato h4, .footer-redes h4 {
+        text-align: center; /* Centraliza tudo no mobile */
+         justify-content: center;
+    }
+     .footer-contato-wrapper {
+        align-items: center;
+    }
+    .social-icons-wrapper {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 576px) { /* Mobile S */
+    header h1 {
+        font-size: 1.6rem; /* Ainda menor */
+    }
+    header .subtitle {
+        font-size: 0.9rem; /* Ainda menor */
+    }
+    .btn-primary, .btn-secondary, .btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+    header nav ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px;
+    }
+    header nav ul li a {
+        font-size: 0.85rem; /* Menor para caber */
+        padding: 0.4rem 0.6rem;
+    }
+}
+
+/* ... todos os seus estilos existentes ... */
+
+/* --- ASSISTENTE DE IA FLUTUANTE --- */
+#chat-container {
+    position: fixed;
+    bottom: 0;
+    right: 20px;
+    width: 360px;
+    height: 70vh;
+    max-height: 550px;
+    background-color: #2c3e50; /* Cor de fundo escura */
+    border: 1px solid #34495e;
+    border-radius: 15px 15px 0 0;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+    display: flex;
+    flex-direction: column;
+    transform: translateY(calc(100% - 48px)); /* Começa "escondido" */
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 9999;
+}
+
+#chat-container.aberto {
+    transform: translateY(0);
+}
+
+#chat-header {
+    background-color: #34495e;
+    color: white;
+    padding: 12px 20px;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 15px 15px 0 0;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+#chat-header #chat-toggle-icon {
+    transition: transform 0.3s ease;
+}
+
+#chat-container.aberto #chat-header #chat-toggle-icon {
+    transform: rotate(180deg);
+}
+
+#chat-corpo {
+    flex-grow: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Estilo da barra de rolagem do chat */
+#chat-corpo::-webkit-scrollbar {
+    width: 6px;
+}
+#chat-corpo::-webkit-scrollbar-track {
+    background: #2c3e50;
+}
+#chat-corpo::-webkit-scrollbar-thumb {
+    background-color: #4A5568;
+    border-radius: 6px;
+}
+
+.mensagem {
+    padding: 10px 15px;
+    border-radius: 18px;
+    max-width: 80%;
+    line-height: 1.5;
+    word-wrap: break-word;
+}
+
+.mensagem.assistente {
+    background-color: #34495e;
+    color: #ecf0f1;
+    border-bottom-left-radius: 4px;
+    align-self: flex-start;
+}
+
+.mensagem.usuario {
+    background-color: #3498db;
+    color: #ffffff;
+    border-bottom-right-radius: 4px;
+    align-self: flex-end;
+}
+
+.mensagem.typing-indicator {
+    align-self: flex-start;
+    padding: 12px 15px;
+}
+
+.mensagem.typing-indicator span {
+    height: 8px;
+    width: 8px;
+    background-color: #7f8c8d;
+    border-radius: 50%;
+    display: inline-block;
+    animation: bounce 1.4s infinite ease-in-out both;
+}
+.mensagem.typing-indicator span:nth-child(2) { animation-delay: -0.32s; }
+.mensagem.typing-indicator span:nth-child(3) { animation-delay: -0.16s; }
+
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1.0); }
+}
+
+
+#chat-input-area {
+    padding: 10px;
+    border-top: 1px solid #34495e;
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+#chat-input {
+    flex-grow: 1;
+    border: 1px solid #4A5568;
+    background-color: #36454F;
+    border-radius: 20px;
+    padding: 10px 15px;
+    color: #ecf0f1;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+#chat-input:focus {
+    border-color: #3498db;
+}
+
+#chat-input:disabled {
+    cursor: not-allowed;
+    background-color: #4A5568;
+}
+
+#chat-enviar {
+    flex-shrink: 0;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: none;
+    background-color: #3498db;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#chat-enviar:hover {
+    background-color: #2980b9;
+}
+
+#chat-enviar:disabled {
+    background-color: #4A5568;
+    cursor: not-allowed;
+}
+
+@media (max-width: 480px) {
+    #chat-container {
+        width: 100%;
+        right: 0;
+        bottom: 0;
+        border-radius: 0;
+    }
+}
+
+
+/* --- AJUSTES NO CARROSSEL DE CERTIFICAÇÕES --- */
+
+.certificacoes-swiper-container .swiper-slide {
+    height: auto; /* Permite que a altura do slide se ajuste */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Espaça a imagem e o texto */
+    align-items: center;
+    text-align: center;
+    padding-bottom: 1rem; /* Adiciona um respiro na parte de baixo */
+}
+
+.certificacoes-swiper-container .swiper-slide img {
+    margin-bottom: 1rem; /* Espaço entre a imagem e a legenda */
+}
+
+p.certification-caption {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500; /* Um pouco menos forte que o negrito total */
+    font-size: 0.95rem; /* Tamanho ajustado */
+    color: #ecf0f1; /* Branco suave */
+    line-height: 1.4;
+    padding: 0 10px; /* Evita que o texto encoste nas bordas */
+    flex-grow: 1; /* Permite que a legenda ocupe o espaço disponível */
+    display: flex;
+    align-items: center; /* Centraliza verticalmente caso haja mais espaço */
+    justify-content: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

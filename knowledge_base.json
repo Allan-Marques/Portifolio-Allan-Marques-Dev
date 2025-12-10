@@ -1,0 +1,38 @@
+{
+  "nome_completo": "Allan Marques Bastos",
+  "titulo_profissional": "Profissional de TI com foco em Gestão, Infraestrutura e Segurança Cibernética",
+  "resumo_profissional": "Minha trajetória autodidata, iniciada aos 17 anos, me proporcionou uma base sólida em eletrônica e recuperação de dados. Hoje, complemento essa experiência com a formação acadêmica em Gestão da Tecnologia da Informação, com foco em otimizar infraestruturas, fortalecer a segurança e conduzir análises forenses. Minha paixão é transformar desafios complexos em soluções eficientes.",
+  "secoes": {
+    "projetos": {
+      "resumo": "A seção de projetos demonstra minha capacidade de aplicar conhecimento teórico em soluções práticas e de alto impacto.",
+      "destaques": [
+        {
+          "titulo": "Firewall & Segmentação de Rede",
+          "descricao": "Neste projeto, utilizei pfSense e Wireshark para reforçar a segurança perimetral de uma rede."
+        },
+        {
+          "titulo": "Análise Forense Digital",
+          "descricao": "Utilizando Autopsy e FTK Imager, segui a norma ISO/IEC 27037 para conduzir uma análise em um caso simulado de dispositivo comprometido."
+        },
+        {
+          "titulo": "Automação de Backups & Monitoramento",
+          "descricao": "Desenvolvi scripts em Python e PowerShell para automatizar rotinas de backup, garantindo a integridade e disponibilidade dos dados."
+        }
+      ]
+    },
+    "habilidades": {
+      "resumo": "Minhas habilidades são divididas em Hard Skills (competências técnicas) e Soft Skills (competências comportamentais), mostrando um perfil profissional equilibrado e completo.",
+      "destaques": {
+        "hard_skills": "Possuo conhecimento profundo em múltiplos sistemas operacionais (Windows, Linux, macOS), infraestrutura de TI, segurança cibernética, investigação digital, automação com Python e manutenção de hardware em baixo nível.",
+        "soft_skills": "Minhas competências comportamentais incluem resolução de problemas complexos, pensamento crítico, aprendizado contínuo e comunicação clara, essenciais para liderança e trabalho em equipe."
+      }
+    },
+    "formacao": {
+      "resumo": "Minha formação acadêmica e certificações validam meu conhecimento técnico e meu compromisso com o desenvolvimento contínuo.",
+      "destaques": [
+        "Estou cursando Gestão da Tecnologia da Informação na Estácio, com previsão de conclusão em 2027.",
+        "Possuo diversas certificações, incluindo Perícia Judicial, Eletrônica, Programação, Fundamentos de IA e Git/GitHub, que podem ser vistas no carrossel."
+      ]
+    }
+  }
+}
