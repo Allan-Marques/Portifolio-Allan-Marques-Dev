@@ -1,0 +1,1063 @@
+/* CSS/style.css - VERSÃO FINAL (CERTIFICADOS PAISAGEM & RESPONSIVIDADE) */
+
+/* =========================================
+   1. RESET E BASE
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 100%;
+    /* 1rem = 16px (Base) */
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #000;
+    color: #e0e0e0;
+    line-height: 1.6;
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+}
+
+/* Tipografia */
+h1,
+h2,
+h3,
+.section-title,
+.subsection-title,
+header h1,
+.footer-title,
+.habilidade-categoria-title {
+    font-family: 'Rajdhani', sans-serif;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.mono,
+.certification-caption,
+.footer-bottom p,
+header p,
+.prompt-symbol,
+#chat-input,
+code {
+    font-family: 'Fira Code', monospace;
+}
+
+/* --- 2. FUNDO MATRIX --- */
+#matrixCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+}
+
+/* --- 3. ESTRUTURA GERAL --- */
+.container {
+    width: 90%;
+    max-width: 75rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+section {
+    padding: 1.5rem 0 3rem 0;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* --- 4. HEADER (CABEÇALHO) --- */
+header {
+    background-color: transparent;
+    padding: 1rem 0;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 2000;
+    transition: all 0.4s ease;
+}
+
+header.header-scrolled {
+    background-color: rgba(5, 10, 5, 0.98);
+    border-bottom: 1px solid rgba(0, 255, 0, 0.3);
+    backdrop-filter: blur(10px);
+    padding: 0.7rem 0;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+header.hide-header {
+    transform: translateY(-100%);
+}
+
+main {
+    padding-top: 140px;
+}
+
+/* Nome Neon Azul */
+header h1 {
+    color: #fff;
+    font-size: 1.8rem;
+    margin-bottom: 0.3rem;
+    text-shadow: 0 0 0.6rem #00aaff, 0 0 1.2rem #00aaff;
+    animation: neon-blue-pulse 1.5s infinite alternate;
+}
+
+@keyframes neon-blue-pulse {
+    0% {
+        text-shadow: none;
+        opacity: 0.8;
+    }
+
+    100% {
+        text-shadow: 0 0 10px #00aaff, 0 0 20px #00aaff, 0 0 40px #00aaff;
+        opacity: 1;
+    }
+}
+
+header .subtitle {
+    color: #00ff00;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    margin-top: 0.7rem;
+    padding: 0;
+}
+
+header nav ul li a {
+    color: #ccc;
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.25rem;
+    transition: 0.3s;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+header nav ul li a:hover,
+header nav ul li a.active {
+    color: #00ff00;
+    background: rgba(0, 255, 0, 0.1);
+    border-bottom: 2px solid #00ff00;
+}
+
+/* --- 6. TÍTULOS (NEON VERMELHO) --- */
+.section-title,
+.footer-title {
+    font-size: 2.2rem;
+    color: #fff;
+    margin-top: 1rem;
+    margin-bottom: 2.5rem;
+    text-align: center;
+    line-height: 1.2;
+    text-shadow: 0 0 0.9rem rgba(255, 0, 0, 0.8);
+    word-wrap: break-word;
+}
+
+.section-title::after,
+.footer-title::after {
+    content: '';
+    display: block;
+    width: 4rem;
+    height: 0.2rem;
+    background: #ff0000;
+    margin: 0.6rem auto 0;
+    box-shadow: 0 0 0.6rem #ff0000;
+}
+
+/* --- 7. SUBTÍTULOS (NEON VERDE) --- */
+.subsection-title {
+    font-size: 1.8rem;
+    color: #fff;
+    text-align: center;
+    margin: 2.5rem 0 1.5rem;
+    text-shadow: 0 0 1rem rgba(0, 255, 0, 0.8);
+}
+
+.subsection-title.no-top-margin {
+    margin-top: 0.6rem !important;
+    margin-bottom: 1.5rem;
+}
+
+/* --- 8. CARDS E VIDRO --- */
+.glass-card,
+.card,
+.interactive-card,
+.formacao-item,
+.experiencia-item,
+.skill-category {
+    background: rgba(0, 5, 0, 0.5) !important;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.6rem;
+    color: #ddd;
+    padding: 2rem;
+    transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+    box-shadow: 0 0.2rem 0.6rem rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+.glass-card:hover,
+.interactive-card:hover {
+    transform: translateY(-0.3rem);
+    background: rgba(10, 20, 10, 0.8) !important;
+    border-color: #00ff00;
+    box-shadow: 0 0 2rem rgba(0, 255, 0, 0.25);
+}
+
+.neon-green-border {
+    border: 1px solid rgba(0, 255, 0, 0.3);
+}
+
+/* --- 9. PROJETOS --- */
+.cards-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.card {
+    flex: 1 1 18rem;
+    max-width: 24rem;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-image {
+    width: 100%;
+    height: 12rem;
+    object-fit: cover;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-content {
+    padding: 1.5rem;
+    flex-grow: 1;
+}
+
+.card-content h3 {
+    color: #fff;
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+}
+
+.btn-secondary {
+    margin-top: 1rem;
+    display: inline-block;
+    padding: 0.5rem 1.2rem;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    background: transparent;
+    text-decoration: none;
+    border-radius: 0.25rem;
+    font-family: 'Fira Code', monospace;
+    transition: 0.5s;
+}
+
+.btn-secondary:hover {
+    background: #00ff00;
+    color: #000;
+    box-shadow: 0 0 1.2rem #00ff00;
+}
+
+/* --- 10. SOBRE MIM --- */
+.about-text {
+    padding: 2.5rem;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    text-align: justify;
+}
+
+/* --- 11. SKILLS --- */
+.skills-columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+}
+
+.skill-category {
+    flex: 1;
+    min-width: 18rem;
+    padding: 2rem;
+}
+
+.habilidade-categoria-title {
+    color: #fff;
+    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 2px solid #00ff00;
+    padding-bottom: 1rem;
+    margin-bottom: 1.2rem;
+    text-shadow: 0 0 0.6rem rgba(0, 255, 0, 0.5);
+    text-align: center;
+}
+
+.habilidade-categoria-title i {
+    margin-right: 0.8rem;
+    color: #00ff00;
+    font-size: 1.3rem;
+}
+
+.skill-category ul li {
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+}
+
+.skill-category ul li i {
+    margin-right: 1rem;
+    width: 1.5rem;
+    text-align: center;
+    color: #3498db;
+}
+
+/* --- 12. FORMAÇÃO --- */
+.formacao-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.formacao-item h3 {
+    color: #fff;
+    margin-bottom: 0.6rem;
+    font-size: 1.4rem;
+}
+
+.formacao-item h3 i {
+    color: #3498db;
+    margin-right: 0.8rem;
+}
+
+/* --- 13. CERTIFICADOS (PAISAGEM/RETANGULAR) --- */
+.certificacoes-swiper-container {
+    width: 100%;
+    padding: 0 0 3rem;
+    position: relative;
+    margin-bottom: 0;
+}
+
+/* Slide Certificado: AGORA RETANGULAR */
+.certificacoes-swiper-container .swiper-slide {
+    width: 22rem !important;
+    /* Mais largo */
+    height: 16rem !important;
+    /* Menos alto = Paisagem */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    background: transparent;
+    border-radius: 0.6rem;
+    overflow: hidden;
+    border: 1px solid rgba(0, 255, 0, 0.3);
+    padding: 0 !important;
+    transition: all 0.5s ease;
+}
+
+.certificacoes-swiper-container .swiper-slide:hover {
+    transform: translateY(-0.5rem) scale(1.02);
+    border-color: #00ff00;
+    box-shadow: 0 0 1.5rem rgba(0, 255, 0, 0.5);
+}
+
+.certificacoes-swiper-container .swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    margin: 0;
+    border: none;
+    border-radius: 0.6rem;
+}
+
+.certificacoes-swiper-container .certification-caption {
+    display: none;
+}
+
+.swiper-pagination-bullet {
+    background: #888;
+    opacity: 0.5;
+    width: 0.5rem;
+    height: 0.5rem;
+}
+
+.swiper-pagination-bullet-active {
+    background: #00ff00;
+    opacity: 1;
+    width: 0.6rem;
+    height: 0.6rem;
+}
+
+.certificacoes-swiper-container .swiper-pagination {
+    bottom: 0 !important;
+}
+
+/* --- 14. GALERIA 3D (MANTIDO QUADRADO) --- */
+.experiencia-gallery {
+    width: 100%;
+    padding-top: 0;
+    padding-bottom: 3rem;
+}
+
+/* Slide Galeria: Mantido Quadrado */
+.gallery-slide {
+    background-position: center;
+    background-size: cover;
+    width: 17.5rem;
+    height: 17.5rem;
+    border-radius: 0.6rem;
+    border: 2px solid #00ff00;
+    padding: 0 !important;
+    transition: all 0.5s ease;
+    overflow: hidden;
+}
+
+.gallery-slide:hover {
+    transform: translateY(-0.5rem) scale(1.02);
+    box-shadow: 0 0 2rem rgba(0, 255, 0, 0.6);
+}
+
+.gallery-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.5rem;
+}
+
+.experiencia-gallery .swiper-pagination {
+    bottom: 0.5rem !important;
+}
+
+/* --- 15. EXPERIÊNCIA --- */
+.experiencia-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+}
+
+.experiencia-item h3 {
+    color: #fff;
+    font-size: 1.4rem;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+}
+
+.experiencia-item h3 i {
+    color: #00ff00;
+    margin-right: 0.8rem;
+}
+
+.experiencia-item ul li {
+    margin-left: 1.2rem;
+    list-style: none;
+    position: relative;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.experiencia-item ul li::before {
+    content: '>';
+    position: absolute;
+    left: -1.2rem;
+    color: #00ff00;
+    font-weight: bold;
+}
+
+/* --- 16. RODAPÉ --- */
+#contato-footer {
+    background-color: transparent !important;
+    padding: 0;
+    margin-top: 2rem;
+    border: none;
+    text-align: center;
+}
+
+.neon-footer-name {
+    color: #fff;
+    text-shadow: 0 0 0.6rem #09ff00;
+    font-weight: bold;
+}
+
+.footer-contato-wrapper {
+    margin-top: 0.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.footer-contato p a {
+    color: #bbb;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer-contato p a:hover {
+    color: #00ff00;
+    text-shadow: 0 0 0.6rem #00ff00;
+}
+
+.footer-contato p i {
+    margin-right: 0.6rem;
+    color: #3498db;
+}
+
+.social-icons-wrapper {
+    gap: 1.2rem;
+    margin-top: 1rem;
+    font-size: 1.8rem;
+    display: flex;
+    justify-content: center;
+}
+
+.social-icon {
+    color: #3498db;
+    transition: 0.5s;
+    opacity: 0.8;
+}
+
+.social-icon:hover {
+    opacity: 1;
+    transform: scale(1.2);
+    text-shadow: 0 0 1rem #3498db;
+}
+
+.footer-bottom {
+    margin-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+    color: #666;
+    font-size: 0.8rem;
+}
+
+/* --- 17. CHAT (FIXO E VISÍVEL) --- */
+#chat-launcher {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background: #000;
+    border: 2px solid #00ff00;
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 999999;
+    cursor: pointer;
+    box-shadow: 0 0 1.2rem rgba(0, 255, 0, 0.4);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    animation: pulse 3s infinite;
+}
+
+#chat-launcher img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 255, 0, 0.7);
+    }
+
+    70% {
+        box-shadow: 0 0 0 1rem rgba(0, 0, 0, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
+}
+
+
+/* --- CSS DO CHAT (CORRIGIDO) --- */
+/* CSS do Chat (Copie e substitua o bloco #chat-window) */
+#chat-window {
+    position: fixed;
+    bottom: 8rem;
+    right: 2rem;
+    width: 22rem;
+    height: 32rem;
+    background: rgba(5, 10, 5, 0.95);
+    backdrop-filter: blur(1rem);
+    border: 1px solid #00ff00;
+    border-radius: 0.6rem;
+    display: flex;
+    flex-direction: column;
+
+    /* ESTADO FECHADO */
+    z-index: -1;
+    /* Fica atrás de tudo */
+    opacity: 0;
+    /* Invisível */
+    pointer-events: none;
+    /* Não clicável */
+    transform: translateY(2rem);
+    transition: all 0.4s ease;
+}
+
+/* ESTADO ABERTO (IMPORTANTE) */
+#chat-window.active {
+    transform: translateY(0);
+    opacity: 1;
+    /* Visível */
+    pointer-events: all;
+    /* Clicável */
+    z-index: 999999;
+    /* Fica NA FRENTE de tudo */
+}
+
+/* Responsividade Mobile do Chat */
+@media (max-width: 768px) {
+    #chat-window {
+        width: 90%;
+        right: 5%;
+        bottom: 7rem;
+        height: 50vh;
+    }
+}
+
+/* ESTADO ATIVO (ABERTO) */
+/* --- ADICIONE ISTO LOGO ABAIXO DO BLOCO QUE VOCÊ MANDOU --- */
+
+/* ESTADO ATIVO (QUANDO CLICA NO ROBÔ) */
+#chat-window.active {
+    transform: translateY(0);
+    opacity: 1;
+    /* Torna visível */
+    pointer-events: all;
+    /* Permite clicar/digitar */
+    z-index: 999999;
+    /* Traz para a frente de TUDO (Matrix, Footer, etc) */
+}
+
+/* RESPONSIVIDADE (GARANTE QUE O CHAT CAIBA NO CELULAR) */
+@media (max-width: 768px) {
+    #chat-window {
+        width: 90%;
+        /* Ocupa quase toda a largura */
+        right: 5%;
+        /* Centraliza */
+        bottom: 7rem;
+        /* Fica acima do botão */
+        height: 50vh;
+        /* Metade da tela de altura */
+    }
+}
+
+.chat-window-header {
+    background: rgba(0, 20, 0, 0.95);
+    padding: 1rem;
+    border-bottom: 1px solid #00ff00;
+    color: #00ff00;
+    display: flex;
+    justify-content: space-between;
+}
+
+#chat-corpo {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.mensagem {
+    max-width: 85%;
+    padding: 0.6rem 0.9rem;
+    border-radius: 0.8rem;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.mensagem.assistente {
+    align-self: flex-start;
+    background: rgba(0, 30, 0, 0.8);
+    color: #00ff00;
+    border: 1px solid rgba(0, 255, 0, 0.3);
+}
+
+.mensagem.usuario {
+    align-self: flex-end;
+    background: rgba(50, 50, 60, 0.8);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#chat-input-area {
+    padding: 1rem;
+    border-top: 1px solid #00ff00;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+}
+
+#chat-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #fff;
+    outline: none;
+    margin-left: 0.5rem;
+    font-size: 1rem;
+}
+
+/* =================================================================
+   CORREÇÃO DEFINITIVA DO CHAT (COLE NO FINAL DO ARQUIVO CSS)
+   ================================================================= */
+
+/* 1. Botão Flutuante (O Robô) - Garante que fique sempre visível */
+#chat-launcher {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 65px;
+    height: 65px;
+    z-index: 2147483647 !important;
+    /* Valor máximo permitido pelo navegador */
+    cursor: pointer;
+    display: flex !important;
+    /* Força aparecer */
+    align-items: center;
+    justify-content: center;
+    background: #000;
+    border: 2px solid #00ff00;
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.4);
+}
+
+/* 2. Janela do Chat (Estado Fechado) */
+#chat-window {
+    position: fixed;
+    bottom: 100px;
+    /* Acima do botão */
+    right: 20px;
+    width: 350px;
+    height: 500px;
+    background: rgba(5, 10, 5, 0.98);
+    /* Fundo quase sólido para leitura */
+    border: 1px solid #00ff00;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.9);
+
+    /* Mágica do desaparecimento */
+    opacity: 0;
+    visibility: hidden;
+    /* Garante que não é clicável nem visível */
+    transform: translateY(20px);
+    transition: all 0.3s ease-in-out;
+
+    /* Garante que fique acima do Matrix mas abaixo do botão */
+    z-index: 2147483646 !important;
+}
+
+/* 3. Janela do Chat (Estado ABERTO - Quando tem a classe .active) */
+#chat-window.active {
+    opacity: 1 !important;
+    visibility: visible !important;
+    /* Força aparecer */
+    transform: translateY(0) !important;
+    pointer-events: all !important;
+}
+
+/* 4. Responsividade do Chat (Celular) */
+@media (max-width: 768px) {
+    #chat-window {
+        width: 90% !important;
+        /* Ocupa quase toda a largura */
+        right: 5% !important;
+        /* Centraliza */
+        bottom: 90px !important;
+        height: 60vh !important;
+        /* 60% da altura da tela */
+    }
+
+    #chat-launcher {
+        width: 60px;
+        height: 60px;
+        bottom: 15px;
+        right: 15px;
+    }
+}
+
+/* Animação do texto de loading do chat */
+.blink {
+    animation: blinker 1.5s linear infinite;
+    color: #00ff00;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0.3;
+    }
+}
+
+/* ==========================================================
+   18. MEDIA QUERIES (CORREÇÃO MOBILE TOTAL)
+   ========================================================== */
+@media (max-width: 768px) {
+
+    /* 1. Redução Global da Escala (Para o celular) */
+    html {
+        font-size: 12px;
+        /* Reduz textos e medidas */
+    }
+
+    /* 2. Container e Header */
+    .container {
+        width: 100%;
+        padding: 0 1.2rem;
+    }
+
+    header {
+        padding: 0.5rem 0;
+    }
+
+    header h1 {
+        font-size: 2rem;
+        margin: 0;
+    }
+
+    header .subtitle {
+        display: none;
+    }
+
+    header nav ul {
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+    }
+
+    header nav ul li a {
+        font-size: 1.1rem;
+        padding: 0.5rem;
+    }
+
+    main {
+        padding-top: 130px;
+    }
+
+    /* 3. Layout em Coluna Única */
+    .cards-wrapper,
+    .skills-columns,
+    .formacao-grid {
+        flex-direction: column;
+        grid-template-columns: 1fr;
+    }
+
+    /* 4. CORREÇÃO PROJETOS MOBILE */
+    .cards-wrapper .card {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    /* 5. Chat Mobile */
+    #chat-window {
+        width: 94%;
+        right: 3%;
+        bottom: 7rem;
+        height: 50vh;
+    }
+
+    #chat-launcher {
+        bottom: 1.5rem;
+        right: 1.5rem;
+        width: 5rem;
+        height: 5rem;
+    }
+
+    /* 6. Slides Responsivos (AQUI ESTÁ A CORREÇÃO DE TAMANHO) */
+
+    /* Certificados no Mobile: Um pouco menor, mas mantendo proporção retangular */
+    .certificacoes-swiper-container .swiper-slide {
+        width: 20rem !important;
+        height: 14.5rem !important;
+        /* Proporção Paisagem no Mobile */
+    }
+
+    /* Galeria (Fotos) no Mobile: Mantém quadrado */
+    .gallery-slide {
+        width: 20rem !important;
+        height: 20rem !important;
+    }
+
+    /* 7. Ajustes de Texto */
+    .about-text {
+        padding: 1.5rem;
+        text-align: left;
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+    }
+}
+
+/* --- PROJETO DESTAQUE (Codificador) --- */
+.featured-project-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3rem;
+    /* Espaço para separar dos jogos abaixo */
+    padding: 0 1rem;
+}
+
+/* Card Neon Pulsante */
+.neon-pulsing-card {
+    width: 100%;
+    max-width: 900px;
+    /* Mais largo que os cards comuns */
+    border: 2px solid #00ff00;
+    /* Borda verde hacker */
+    background: rgba(0, 20, 0, 0.6) !important;
+    /* Fundo mais escuro para destaque */
+    animation: neonPulse 2s infinite alternate;
+    /* Animação de pulso */
+    display: flex;
+    align-items: center;
+}
+
+@keyframes neonPulse {
+    from {
+        box-shadow: 0 0 10px rgba(0, 255, 0, 0.3), inset 0 0 10px rgba(0, 255, 0, 0.1);
+    }
+
+    to {
+        box-shadow: 0 0 25px rgba(0, 255, 0, 0.7), inset 0 0 20px rgba(0, 255, 0, 0.2);
+    }
+}
+
+/* Layout Interno do Destaque */
+.featured-content {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+}
+
+/* Ícone Gigante */
+.featured-icon {
+    font-size: 5rem;
+    color: #00ff00;
+    flex-shrink: 0;
+    padding: 1rem;
+    text-shadow: 0 0 15px rgba(0, 255, 0, 0.8);
+    animation: floatIcon 3s ease-in-out infinite;
+}
+
+@keyframes floatIcon {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Texto e Detalhes */
+.featured-text h3 {
+    font-size: 1.8rem;
+    color: #fff;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+.featured-text p {
+    color: #ddd;
+    margin-bottom: 1rem;
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+.project-details {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9rem;
+    color: #00ff00 !important;
+    margin-bottom: 1.5rem;
+}
+
+/* Botão de Destaque */
+.btn-featured {
+    display: inline-block;
+    padding: 12px 30px;
+    background: rgba(0, 255, 0, 0.1);
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    text-decoration: none;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+.btn-featured:hover {
+    background: #00ff00;
+    color: #000;
+    box-shadow: 0 0 20px #00ff00;
+    transform: scale(1.05);
+}
+
+/* Responsividade Mobile para o Destaque */
+@media (max-width: 768px) {
+    .featured-content {
+        flex-direction: column;
+        /* Empilha ícone e texto no celular */
+        text-align: center;
+    }
+
+    .featured-icon {
+        font-size: 4rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .featured-text h3 {
+        font-size: 1.5rem;
+    }
+}

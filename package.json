@@ -1,0 +1,16 @@
+{
+  "name": "portfolio-allan",
+  "version": "1.0.0",
+  "description": "Portfolio Profissional Forense",
+  "main": "index.html",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.1.3"
+  },
+  "keywords": [],
+  "author": "Allan Marques",
+  "license": "ISC"
+}

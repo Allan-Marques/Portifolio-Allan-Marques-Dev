@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Allan Marques Bastos - Perito em Forense Digital</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Roboto:wght@300;400;500&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <canvas id="matrixCanvas"></canvas>
+
+    <audio id="bg-audio" loop>
+        <source src="mp3/bohemia.mp3" type="audio/mpeg">
+    </audio>
+
+    <header>
+        <div class="container header-container">
+            <h1>Allan Marques Bastos</h1>
+            <h2 class="subtitle">Perito em Forense Digital e Documentoscopia</h2>
+            <nav>
+                <ul>
+                    <li><a href="#apresentacao" class="nav-link">Sobre Mim</a></li>
+                    <li><a href="#projetos" class="nav-link">Projetos</a></li>
+                    <li><a href="#habilidades" class="nav-link">Competências</a></li>
+                    <li><a href="#formacao" class="nav-link">Formação</a></li>
+                    <li><a href="#experiencia" class="nav-link">Experiência</a></li>
+                    <li><a href="#contato-footer" class="nav-link">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="apresentacao" class="hero-section">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Trajetória Profissional</h2>
+                <div data-aos="fade-up" data-aos-delay="200" class="about-text glass-card neon-green-border">
+                    <p>
+                        Minha jornada técnica começou cedo, aos 17 anos, na bancada de eletrônica. São <strong>22 anos
+                            de experiência ininterrupta</strong> lidando com hardware. Mesmo no período em que empreendi
+                        no varejo (supermercado) por 6 anos — onde desenvolvi liderança e gestão de crises — nunca
+                        deixei a manutenção de lado, atendendo demandas constantes de clientes e parceiros.
+                    </p>
+                    <p>
+                        A transição para a Perícia Forense foi impulsionada por uma adversidade pessoal: fui vítima de
+                        estelionato e falsificação documental em um contexto familiar. Essa experiência me fez mergulhar
+                        na <strong>Documentoscopia e Grafoscopia</strong> com a visão de quem conhece o impacto real da
+                        fraude. Retornei à bancada com foco em microeletrônica (laptops/smartphones) e investigação
+                        digital.
+                    </p>
+                    <p>
+                        Nos últimos 4 anos, dedico-me à migração total para <strong>Desenvolvimento e Segurança da
+                            Informação</strong>. Hoje, integro a vivência de gestão, a precisão do hardware e o instinto
+                        investigativo para atuar como Perito Digital, entregando análises técnicas robustas.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="projetos">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Projetos de Desenvolvimento</h2>
+                <div class="featured-project-wrapper" data-aos="zoom-in">
+                    <div class="glass-card neon-pulsing-card">
+                        <div class="featured-content">
+                            <div class="featured-icon">
+                                <i class="fas fa-user-secret"></i>
+                            </div>
+                            <div class="featured-text">
+                                <h3><i class="fas fa-shield-alt"></i> Codificador de Senhas "Mnemônico"</h3>
+                                <p>
+                                    Uma ferramenta de criptografia focada em engenharia social reversa. Ela transforma
+                                    palavras simples e memoráveis (como "uva" ou "dog") em <strong>hashs alfanuméricos
+                                        complexos</strong> (3x mais caracteres), permitindo que o usuário crie senhas
+                                    fortes baseadas em "gatilhos mentais" fáceis de lembrar (frutas, animais, datas).
+                                </p>
+                                <p class="project-details">
+                                    <i class="fas fa-code"></i> Funcionalidades: Criptografia/Descriptografia
+                                    bidirecional e Copiar para Área de Transferência.
+                                </p>
+                                <a href="https://allan-marques.github.io/challengeonedecodificador4/" target="_blank"
+                                    class="btn btn-featured">
+                                    <i class="fas fa-external-link-alt"></i> Acessar Ferramenta
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cards-wrapper">
+                    <div class="card glass-card interactive-card neon-green-border" data-aos="fade-up">
+                        <img src="imagens/batalha-naval.png" alt="Batalha Naval" class="card-image">
+                        <div class="card-content">
+                            <h3>Batalha Naval</h3>
+                            <p>Estratégia e lógica de matrizes bidimensionais desenvolvidas em C.</p>
+                            <a href="https://replit.com/@AllanDroid/BatalhaNaval" target="_blank"
+                                class="btn btn-secondary">Ver Código</a>
+                        </div>
+                    </div>
+
+                    <div class="card glass-card interactive-card neon-green-border" data-aos="fade-up"
+                        data-aos-delay="100">
+                        <img src="imagens/xadrez.png" alt="Xadrez" class="card-image">
+                        <div class="card-content">
+                            <h3>Xadrez de Terminal</h3>
+                            <p>Implementação de regras complexas e validação de movimentos no console.</p>
+                            <a href="https://replit.com/@AllanDroid/Xadres-de-terminal" target="_blank"
+                                class="btn btn-secondary">Ver Código</a>
+                        </div>
+                    </div>
+
+                    <div class="card glass-card interactive-card neon-green-border" data-aos="fade-up"
+                        data-aos-delay="200">
+                        <img src="imagens/super-trunfo.png" alt="Super Trunfo" class="card-image">
+                        <div class="card-content">
+                            <h3>Super Trunfo</h3>
+                            <p>Manipulação de dados e structs em C baseada em comparação de atributos.</p>
+                            <a href="https://replit.com/@AllanDroid/jogo-super-trunfo" target="_blank"
+                                class="btn btn-secondary">Ver Código</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="habilidades">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Competências Técnicas</h2>
+                <div class="skills-columns">
+                    <div class="skill-category glass-card interactive-card neon-green-border" data-aos="fade-right">
+                        <h3 class="habilidade-categoria-title">
+                            <i class="fas fa-fingerprint"></i> Forense & Investigação
+                        </h3>
+                        <ul>
+                            <li><i class="fas fa-search"></i> OSINT (Open Source Intelligence)</li>
+                            <li><i class="fas fa-file-contract"></i> Documentoscopia & Grafoscopia</li>
+                            <li><i class="fas fa-hdd"></i> Processamento de Evidências (IPED)</li>
+                            <li><i class="fas fa-database"></i> Recuperação de Dados (Física/Lógica)</li>
+                            <li><i class="fas fa-user-secret"></i> Análise de Metadados e Anti-Fraude</li>
+                        </ul>
+                    </div>
+
+                    <div class="skill-category glass-card interactive-card neon-green-border" data-aos="fade-left">
+                        <h3 class="habilidade-categoria-title">
+                            <i class="fas fa-laptop-code"></i> TI & Infraestrutura
+                        </h3>
+                        <ul>
+                            <li><i class="fas fa-brain"></i> Inteligência Artificial (IA) & Automação</li>
+                            <li><i class="fas fa-microchip"></i> Eletrônica Avançada (Nível Componente)</li>
+                            <li><i class="fas fa-server"></i> Infraestrutura de Redes & Hardware</li>
+                            <li><i class="fab fa-linux"></i> Linux / Windows / Android / macOS</li>
+                            <li><i class="fas fa-code"></i> Dev (C, Python, JavaScript, HTML/CSS)</li>
+                            <li><i class="fas fa-terminal"></i> Git, GitHub & Scripting</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="formacao">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Formação Acadêmica</h2>
+
+                <div class="formacao-grid">
+                    <div class="formacao-item glass-card interactive-card neon-green-border" data-aos="fade-up">
+                        <h3><i class="fas fa-university"></i> Gestão de TI</h3>
+                        <p><strong>Instituição:</strong> Estácio</p>
+                        <p><strong>Status:</strong> Em andamento (12/2027)</p>
+                    </div>
+
+                    <div class="formacao-item glass-card interactive-card neon-green-border" data-aos="fade-up"
+                        data-aos-delay="100">
+                        <h3><i class="fas fa-microchip"></i> Eletrônica Analógica/Digital</h3>
+                        <p><strong>Instituição:</strong> SENAI</p>
+                        <p><strong>Status:</strong> Concluído (2006)</p>
+                    </div>
+                </div>
+
+                <h3 class="subsection-title" data-aos="fade-up">Certificações</h3>
+
+                <div class="swiper-container certificacoes-swiper-container" data-aos="fade-up">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide glass-card interactive-card neon-green-border"><img
+                                src="imagens/perito.png" alt="Perícia" />
+                            <p class="certification-caption">Perícia Grafotécnica (Fênix)</p>
+                        </div>
+                        <div class="swiper-slide glass-card interactive-card neon-green-border"><img
+                                src="imagens/ibm.png" alt="IBM" />
+                            <p class="certification-caption">Tecnologias Emergentes (IBM)</p>
+                        </div>
+                        <div class="swiper-slide glass-card interactive-card neon-green-border"><img
+                                src="imagens/eletronica.png" alt="Eletrônica" />
+                            <p class="certification-caption">Eletrônica (SENAI)</p>
+                        </div>
+                        <div class="swiper-slide glass-card interactive-card neon-green-border"><img
+                                src="imagens/google-dorks.png" alt="Dorks" />
+                            <p class="certification-caption">OSINT & Google Dorks</p>
+                        </div>
+                        <div class="swiper-slide glass-card interactive-card neon-green-border"><img
+                                src="imagens/git-github.png" alt="Git" />
+                            <p class="certification-caption">Git e GitHub</p>
+                        </div>
+                        <div class="swiper-slide glass-card interactive-card neon-green-border"><img
+                                src="imagens/gestao-agil.png" alt="Scrum" />
+                            <p class="certification-caption">Gestão Ágil & Scrum</p>
+                        </div>
+                        <div class="swiper-slide glass-card interactive-card neon-green-border"><img
+                                src="imagens/lean-startup.png" alt="Lean" />
+                            <p class="certification-caption">Lean Startup</p>
+                        </div>
+                        <div class="swiper-slide glass-card interactive-card neon-green-border"><img
+                                src="imagens/logica-programacao-js.png" alt="Lógica" />
+                            <p class="certification-caption">Lógica de Programação</p>
+                        </div>
+                        <div class="swiper-slide glass-card interactive-card neon-green-border"><img
+                                src="imagens/html5.png" alt="HTML" />
+                            <p class="certification-caption">HTML5 e CSS3</p>
+                        </div>
+                        <div class="swiper-slide glass-card interactive-card neon-green-border"><img
+                                src="imagens/js.png" alt="JS" />
+                            <p class="certification-caption">JavaScript para Web</p>
+                        </div>
+                        <div class="swiper-slide glass-card interactive-card neon-green-border"><img
+                                src="imagens/fundamentos-ia.png" alt="IA" />
+                            <p class="certification-caption">Fundamentos de IA</p>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experiencia">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Experiência Profissional</h2>
+
+                <h3 class="subsection-title" style="margin-top: 0;">Galeria de Atuação</h3>
+                <div class="swiper-container experiencia-gallery" data-aos="fade-up">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide gallery-slide neon-green-border"><img src="imagens/img1.jpg"
+                                alt="Work 1" /></div>
+                        <div class="swiper-slide gallery-slide neon-green-border"><img src="imagens/img2.jpg"
+                                alt="Work 2" /></div>
+                        <div class="swiper-slide gallery-slide neon-green-border"><img src="imagens/img3.jpg"
+                                alt="Work 3" /></div>
+                        <div class="swiper-slide gallery-slide neon-green-border"><img src="imagens/img4.jpg"
+                                alt="Work 4" /></div>
+                        <div class="swiper-slide gallery-slide neon-green-border"><img src="imagens/img5.jpg"
+                                alt="Work 5" /></div>
+                        <div class="swiper-slide gallery-slide neon-green-border"><img src="imagens/img6.jpg"
+                                alt="Work 6" /></div>
+                        <div class="swiper-slide gallery-slide neon-green-border"><img src="imagens/img7.jpg"
+                                alt="Work 7" /></div>
+                        <div class="swiper-slide gallery-slide neon-green-border"><img src="imagens/img8.jpg"
+                                alt="Work 8" /></div>
+                        <div class="swiper-slide gallery-slide neon-green-border"><img src="imagens/img9.jpg"
+                                alt="Work 9" /></div>
+                        <div class="swiper-slide gallery-slide neon-green-border"><img src="imagens/img10.jpg"
+                                alt="Work 10" /></div>
+                        <div class="swiper-slide gallery-slide neon-green-border"><img src="imagens/img11.jpg"
+                                alt="Work 11" /></div>
+                        <div class="swiper-slide gallery-slide neon-green-border"><img src="imagens/img12.jpg"
+                                alt="Work 12" /></div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+
+                <div class="experiencia-wrapper">
+                    <div class="experiencia-item glass-card interactive-card neon-green-border" data-aos="fade-up">
+                        <h3><i class="fas fa-search-location"></i> Perito em Forense Digital e Documentoscopia</h3>
+                        <p><strong>Autônomo / Consultoria Especializada</strong></p>
+                        <p><strong>Período:</strong> Atual</p>
+                        <ul>
+                            <li>Análise de autenticidade documental (física e digital) utilizando técnicas de
+                                grafoscopia.</li>
+                            <li>Investigação em Fontes Abertas (OSINT) para levantamento de ativos e inteligência.</li>
+                            <li>Processamento de evidências digitais e elaboração de pareceres técnicos.</li>
+                        </ul>
+                    </div>
+
+                    <div class="experiencia-item glass-card interactive-card neon-green-border" data-aos="fade-up"
+                        data-aos-delay="100">
+                        <h3><i class="fas fa-tools"></i> Especialista em Hardware e Recuperação de Dados</h3>
+                        <p><strong>Projetos Autônomos | Vila Velha, ES</strong></p>
+                        <p><strong>Período:</strong> 2010 – Atual</p>
+                        <ul>
+                            <li>Diagnóstico avançado e reparo de placas eletrônicas (BGA, Microeletrônica).</li>
+                            <li>Recuperação de dados em mídias danificadas (HDs, SSDs, Pendrives, Nand).</li>
+                            <li>Manutenção de infraestrutura de TI para pequenas e médias empresas.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contato-footer" data-aos="fade-up">
+        <div class="container footer-content">
+            <div class="footer-info">
+                <h2 class="footer-title">Contato Profissional</h2>
+                <div class="footer-contato-wrapper">
+                    <div class="footer-contato">
+                        <p><a href="mailto:allan.solucoes.digitais@gmail.com"><i class="fas fa-envelope"></i>
+                                allan.solucoes.digitais@gmail.com</a></p>
+                        <p><a href="https://wa.me/5527995045801" target="_blank" class="whatsapp-link"><i
+                                    class="fab fa-whatsapp"></i> WhatsApp</a></p>
+                    </div>
+                    <div class="footer-redes">
+                        <div class="social-icons-wrapper">
+                            <a href="https://www.linkedin.com/in/allan-marques-dev" target="_blank"
+                                class="social-icon"><i class="fab fa-linkedin"></i></a>
+                            <a href="https://github.com/Allan-Marques" target="_blank" class="social-icon"><i
+                                    class="fab fa-github"></i></a>
+                            <a href="https://www.instagram.com/play.help?igsh=NHRlZjhmZ21pY2s5" target="_blank"
+                                class="social-icon"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 <span class="neon-footer-name">Allan Marques Bastos</span>.</p>
+        </div>
+    </footer>
+
+    <div id="chat-launcher" title="Assistente Forense">
+        <img src="imagens/logo.png" alt="IA" />
+    </div>
+
+    <div id="chat-window">
+        <div class="chat-window-header">
+            <span><i class="fas fa-terminal"></i> Terminal_Assistente</span>
+            <button id="chat-close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <div id="chat-corpo">
+            <div class="mensagem assistente">
+                <span class="prompt-user">root@allan:~#</span> Inicializando...<br>
+                Como posso ajudar na investigação?
+            </div>
+        </div>
+        <div id="chat-input-area">
+            <span class="prompt-symbol">>_</span>
+            <input type="search" id="chat-input" name="q" class="notranslate" translate="no" placeholder="Digite..."
+                autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            <button id="chat-enviar"><i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/assistente.js"></script>
+</body>
+
+</html>
