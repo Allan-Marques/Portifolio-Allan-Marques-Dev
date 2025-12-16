@@ -1,4 +1,4 @@
-/* ARQUIVO: api/assistente.js */
+/* ARQUIVO: api/assistente.js (Código Final em Inglês) */
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { createRequire } from 'module';
 
@@ -6,14 +6,15 @@ const require = createRequire(import.meta.url);
 let knowledge = {};
 
 try {
-  knowledge = require('../knowledge_base.json');
+    knowledge = require('../knowledge_base.json');
 } catch (e) {
-  console.warn("Knowledge base not found.");
+    console.warn("Knowledge base not found.");
 }
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 export default async function handler(req, res) {
+  // CORS Headers
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
@@ -46,7 +47,7 @@ export default async function handler(req, res) {
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
     const result = await model.generateContent(`${systemPrompt}\n\nUser: ${finalMessage}`);
     const response = await result.response;
-
+    
     return res.status(200).json({ resposta: response.text() });
 
   } catch (error) {
