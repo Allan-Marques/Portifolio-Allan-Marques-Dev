@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export default async function handler(req, res) {
-  // Configurações de permissão (CORS)
+  // Configurações de CORS
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
@@ -10,37 +10,43 @@ export default async function handler(req, res) {
     'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
   );
 
-  // Responde OK para verificações do navegador
   if (req.method === 'OPTIONS') {
     res.status(200).end();
     return;
   }
 
   try {
+    // === O ESPIÃO: Mostra no log o que está chegando ===
+    console.log("--- DEBUG START ---");
+    console.log("Tipo do Body:", typeof req.body);
+    console.log("Conteúdo do Body:", JSON.stringify(req.body));
+    // ==================================================
+
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-    // === PARTE NOVA: TRATAMENTO INTELIGENTE DA MENSAGEM ===
     let body = req.body;
 
-    // Se o corpo vier como texto (string), tenta transformar em JSON
+    // Tenta consertar se vier como texto
     if (typeof body === 'string') {
       try {
         body = JSON.parse(body);
       } catch (e) {
-        console.error("Erro ao converter body:", e);
+        console.error("Erro ao fazer parse do JSON:", e);
       }
     }
 
-    // Procura a mensagem em qualquer campo possível
+    // Procura a mensagem
     const userMessage = body?.message || body?.prompt || body?.text;
 
-    // Se mesmo assim estiver vazio, avisa o erro 400
     if (!userMessage) {
-      return res.status(400).json({ error: "Mensagem vazia. Digite algo no chat!" });
+      // Devolve o erro mostrando o que recebeu (para ajudar a gente)
+      return res.status(400).json({ 
+        error: "Mensagem vazia", 
+        recebido: body 
+      });
     }
 
-    // Inicia o Chat
     const chat = model.startChat({
       history: [
         {
@@ -61,7 +67,7 @@ export default async function handler(req, res) {
     res.status(200).json({ reply: text });
 
   } catch (error) {
-    console.error("Erro geral na API:", error);
-    res.status(500).json({ error: "Erro interno ao processar IA." });
+    console.error("Erro Fatal:", error);
+    res.status(500).json({ error: "Erro interno." });
   }
 }
