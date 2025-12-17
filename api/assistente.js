@@ -1,58 +1,59 @@
-/* ARQUIVO: api/assistente.js (Código Final em Inglês) */
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { createRequire } from 'module';
-
-const require = createRequire(import.meta.url);
-let knowledge = {};
-
-try {
-    knowledge = require('../knowledge_base.json');
-} catch (e) {
-    console.warn("Knowledge base not found.");
-}
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 export default async function handler(req, res) {
-  // CORS Headers
+  // Configurações de permissão (CORS) para o site funcionar
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-  res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  );
 
+  // Se for apenas uma verificação do navegador, responde OK e para
   if (req.method === 'OPTIONS') {
     res.status(200).end();
     return;
   }
 
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
   try {
-    if (!process.env.GEMINI_API_KEY) throw new Error("API Key missing");
-
-    const { userMessage, context } = req.body;
-
-    const systemPrompt = `
-    # CONTEXTO
-    Você é o Allan Marques Bastos. Aja como o próprio em uma entrevista.
-    # DADOS:
-    ${JSON.stringify(knowledge)}
-    `;
-
-    let finalMessage = userMessage;
-    if (context === 'inicio') finalMessage = "Apresente-se.";
-
-   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-001" });
-    const result = await model.generateContent(`${systemPrompt}\n\nUser: ${finalMessage}`);
-    const response = await result.response;
+    // Conecta com a chave do Google
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     
-    return res.status(200).json({ resposta: response.text() });
+    // === AQUI ESTÁ A CORREÇÃO FINAL DO NOME ===
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+    // Pega a mensagem do usuário
+    const { message } = req.body || {};
+
+    if (!message) {
+      return res.status(400).json({ error: "Mensagem vazia" });
+    }
+
+    // Inicia o chat com personalidade definida
+    const chat = model.startChat({
+      history: [
+        {
+          role: "user",
+          parts: [{ text: "Você é o assistente virtual do portfólio do Allan Marques. Responda de forma curta, profissional e simpática." }],
+        },
+        {
+          role: "model",
+          parts: [{ text: "Entendido! Sou o assistente do Allan. Como posso ajudar você hoje?" }],
+        },
+      ],
+    });
+
+    // Envia a pergunta e espera a resposta
+    const result = await chat.sendMessage(message);
+    const response = await result.response;
+    const text = response.text();
+
+    // Devolve a resposta para o site
+    res.status(200).json({ reply: text });
 
   } catch (error) {
-    console.error("API Error:", error);
-    return res.status(500).json({ error: error.message });
+    console.error("Erro na API:", error);
+    res.status(500).json({ error: "Erro interno no servidor de IA." });
   }
 }
-// Versao Flash Corrigida
