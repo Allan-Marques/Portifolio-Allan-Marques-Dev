@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export default async function handler(req, res) {
-  // Configurações de permissão (CORS) para o site funcionar
+  // 1. Configuração do CORS (Permite que seu site converse com o servidor)
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
@@ -10,27 +10,27 @@ export default async function handler(req, res) {
     'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
   );
 
-  // Se for apenas uma verificação do navegador, responde OK e para
+  // Se o navegador estiver apenas checando permissões, responde OK e para.
   if (req.method === 'OPTIONS') {
     res.status(200).end();
     return;
   }
 
   try {
-    // Conecta com a chave do Google
+    // 2. Conecta no Google usando sua Chave
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     
-    // === AQUI ESTÁ A CORREÇÃO FINAL DO NOME ===
+    // === O NOME CORRETO É ESTE AQUI ===
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-    // Pega a mensagem do usuário
+    // 3. Recebe a mensagem do usuário
     const { message } = req.body || {};
 
     if (!message) {
       return res.status(400).json({ error: "Mensagem vazia" });
     }
 
-    // Inicia o chat com personalidade definida
+    // 4. Inicia o Chat
     const chat = model.startChat({
       history: [
         {
@@ -39,21 +39,20 @@ export default async function handler(req, res) {
         },
         {
           role: "model",
-          parts: [{ text: "Entendido! Sou o assistente do Allan. Como posso ajudar você hoje?" }],
+          parts: [{ text: "Olá! Sou o assistente do Allan. Como posso ajudar você a conhecer melhor o trabalho dele?" }],
         },
       ],
     });
 
-    // Envia a pergunta e espera a resposta
+    // 5. Envia e aguarda a resposta
     const result = await chat.sendMessage(message);
     const response = await result.response;
     const text = response.text();
 
-    // Devolve a resposta para o site
     res.status(200).json({ reply: text });
 
   } catch (error) {
-    console.error("Erro na API:", error);
-    res.status(500).json({ error: "Erro interno no servidor de IA." });
+    console.error("Erro detalhado:", error);
+    res.status(500).json({ error: "Erro ao processar a IA." });
   }
 }
