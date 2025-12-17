@@ -44,7 +44,7 @@ export default async function handler(req, res) {
     let finalMessage = userMessage;
     if (context === 'inicio') finalMessage = "Apresente-se.";
 
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
     const result = await model.generateContent(`${systemPrompt}\n\nUser: ${finalMessage}`);
     const response = await result.response;
     
