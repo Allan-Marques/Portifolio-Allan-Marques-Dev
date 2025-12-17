@@ -19,7 +19,7 @@ export default async function handler(req, res) {
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     
     // === AQUI ESTÁ O PULO DO GATO: NOME TÉCNICO ===
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-001" });
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
     let body = req.body;
 
