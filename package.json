@@ -14,5 +14,6 @@
     "dotenv": "^16.4.5",
     "cors": "^2.8.5",
     "express": "^4.19.2",
-   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
+    "@google/generative-ai": "^0.14.0"
+  }
 }
