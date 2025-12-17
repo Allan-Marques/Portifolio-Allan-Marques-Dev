@@ -1,7 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export default async function handler(req, res) {
-  // Configurações de CORS
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
@@ -18,18 +17,16 @@ export default async function handler(req, res) {
   try {
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     
-    // === AQUI ESTÁ O PULO DO GATO: NOME TÉCNICO ===
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    // === USANDO O FLASH COM A BIBLIOTECA ATUALIZADA (0.21.0) ===
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     let body = req.body;
-
     if (typeof body === 'string') {
       try {
         body = JSON.parse(body);
-      } catch (e) { }
+      } catch (e) {}
     }
 
-    // Lê a mensagem corretamente
     const userMessage = body?.userMessage || body?.message || body?.prompt;
 
     if (!userMessage) {
@@ -53,7 +50,6 @@ export default async function handler(req, res) {
     const response = await result.response;
     const text = response.text();
 
-    // Responde corretamente
     res.status(200).json({ resposta: text });
 
   } catch (error) {
