@@ -1,43 +1,42 @@
-export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-  res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
+// Caminho sugerido: app/api/gemini/route.js (ou onde estiver sua lógica)
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { NextResponse } from "next/server";
 
-  if (req.method === 'OPTIONS') { res.status(200).end(); return; }
-
+export async function POST(req) {
   try {
-    let body = req.body;
-    if (typeof body === 'string') { try { body = JSON.parse(body); } catch (e) {} }
-
-    const userMessage = body?.userMessage || body?.message || body?.prompt;
-    if (!userMessage) return res.status(400).json({ error: "Mensagem vazia." });
-
+    // 1. Segurança: Pega a chave das Variáveis de Ambiente do Vercel
     const apiKey = process.env.GEMINI_API_KEY;
-
-    // Conexão direta com o modelo Flash
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ role: "user", parts: [{ text: "Você é o assistente do Allan. Responda curto. Contexto: " + userMessage }] }]
-      })
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      console.error("Erro Google:", data);
-      return res.status(response.status).json({ error: "Erro API Google", detalhes: data });
+    
+    if (!apiKey) {
+      return NextResponse.json(
+        { error: "Chave de API não configurada no servidor." },
+        { status: 500 }
+      );
     }
 
-    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || "Sem resposta.";
-    res.status(200).json({ resposta: text });
+    // 2. Extrai o corpo da mensagem enviada pelo Frontend
+    const { message } = await req.json();
+
+    // 3. Inicializa o Agente com a Chave
+    const genAI = new GoogleGenerativeAI(apiKey);
+
+    // --- A CORREÇÃO CRÍTICA ESTÁ AQUI ---
+    // Substituímos o 'gemini-1.5-flash' pelo modelo que sua auditoria confirmou:
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+
+    // 4. Executa a geração
+    const result = await model.generateContent(message);
+    const response = await result.response;
+    const text = response.text();
+
+    // 5. Retorna para o Frontend
+    return NextResponse.json({ result: text });
 
   } catch (error) {
-    console.error("Erro:", error);
-    res.status(500).json({ error: "Erro interno." });
+    console.error("Erro na Perícia Digital (API):", error);
+    return NextResponse.json(
+      { error: "Falha na comunicação com o modelo.", details: error.message },
+      { status: 500 }
+    );
   }
 }
