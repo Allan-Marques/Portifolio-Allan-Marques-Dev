@@ -1,75 +1,68 @@
 // Arquivo: api/assistente.js
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { NextResponse } from "next/server";
 
-// Configuração: Dizemos ao Next.js que isso é uma rota dinâmica (não cachear estático)
-export const dynamic = 'force-dynamic';
+// NADA de 'runtime: edge' aqui. Vamos usar o padrão Node.js seguro.
 
-// --- TRATAMENTO DE CORS (Preflight) ---
-// O navegador manda um 'OPTIONS' antes do POST para ver se pode falar com a API.
-export async function OPTIONS() {
-  return new NextResponse(null, {
-    status: 200,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    },
-  });
-}
+export default async function handler(req, res) {
+  // 1. Configuração Manual de CORS (Essencial para seu HTML falar com a API)
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  );
 
-// --- A LÓGICA DO CHAT (POST) ---
-export async function POST(req) {
+  // 2. Responde ao "sinal de fumaça" do navegador (Preflight)
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
+  // 3. Garante que só aceitamos ordens via POST
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Método não permitido. Use POST.' });
+  }
+
   try {
-    // 1. Validação da Chave (Segurança)
     const apiKey = process.env.GEMINI_API_KEY;
+    
     if (!apiKey) {
-      return NextResponse.json(
-        { error: "Chave de API não configurada no servidor." },
-        { status: 500 }
-      );
+      throw new Error("Chave de API não configurada no servidor.");
     }
 
-    // 2. Parse do Corpo da Requisição (Jeito moderno)
-    const body = await req.json();
-    const { message } = body;
+    // 4. Tratamento de Entrada (Body Parsing Seguro)
+    let message;
+    if (req.body && typeof req.body === 'object') {
+        // Vercel às vezes já entrega o objeto pronto
+        message = req.body.message;
+    } else if (req.body && typeof req.body === 'string') {
+        // Se vier como texto, convertemos
+        const parsed = JSON.parse(req.body);
+        message = parsed.message;
+    }
 
     if (!message) {
-      return NextResponse.json(
-        { error: "Mensagem vazia." },
-        { status: 400 }
-      );
+      // Se falhar o parse ou vier vazio
+      return res.status(400).json({ error: "Corpo da requisição inválido ou mensagem vazia." });
     }
 
-    // 3. Acionamento do Perito (Gemini)
+    // 5. Acionamento da IA (Gemini 2.0 Flash)
     const genAI = new GoogleGenerativeAI(apiKey);
-    
-    // MODELO: Mantemos o 2.0 Flash que sua auditoria validou
     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
     const result = await model.generateContent(message);
     const response = await result.response;
     const text = response.text();
 
-    // 4. Construção da Resposta com CORS
-    // Aqui usamos NextResponse para garantir que os headers vão junto
-    return NextResponse.json(
-      { result: text },
-      {
-        status: 200,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'POST, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-        },
-      }
-    );
+    // 6. Resposta Final
+    return res.status(200).json({ result: text });
 
   } catch (error) {
-    console.error("Erro na Perícia Digital:", error);
-    return NextResponse.json(
-      { error: "Falha interna.", details: error.message },
-      { status: 500 }
-    );
+    console.error("Erro na API:", error);
+    return res.status(500).json({ 
+      error: "Falha interna no servidor.", 
+      details: error.message 
+    });
   }
 }
