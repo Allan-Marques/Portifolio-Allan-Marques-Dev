@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-  // --- 1. CONFIGURAÇÃO DE CORS (PADRÃO) ---
+  // 1. CORS
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
@@ -14,7 +14,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    // --- 2. PREPARAR DADOS ---
+    // 2. TRATAR DADOS
     let body = req.body;
     if (typeof body === 'string') {
       try { body = JSON.parse(body); } catch (e) {}
@@ -27,13 +27,10 @@ export default async function handler(req, res) {
     }
 
     const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) {
-      return res.status(500).json({ error: "API Key não configurada." });
-    }
 
-    // --- 3. CONEXÃO DIRETA (SEM BIBLIOTECA) ---
-    // Usamos o endereço oficial da API REST do Google
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    // 3. CONEXÃO DIRETA COM O MODELO CLÁSSICO (GEMINI-PRO)
+    // Esse modelo roda em todas as contas, antigas ou novas.
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
 
     const payload = {
       contents: [
@@ -44,32 +41,27 @@ export default async function handler(req, res) {
       ]
     };
 
-    // Faz a chamada "nua e crua"
     const response = await fetch(url, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
 
     const data = await response.json();
 
-    // --- 4. TRATAMENTO DE ERROS DA API ---
     if (!response.ok) {
-      console.error("Erro do Google:", data);
-      return res.status(response.status).json({ 
-        error: "Erro na API do Google", 
-        detalhes: data.error?.message || "Erro desconhecido" 
-      });
+      console.error("Erro Google:", data);
+      return res.status(response.status).json({ error: "Erro na API", detalhes: data });
     }
 
-    // --- 5. PEGAR A RESPOSTA E ENVIAR ---
-    const text = data.candidates[0].content.parts[0].text;
+    // 4. RETORNA RESPOSTA
+    // O formato do gemini-pro pode variar ligeiramente, garantindo acesso seguro
+    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || "Sem resposta da IA.";
+    
     res.status(200).json({ resposta: text });
 
   } catch (error) {
     console.error("Erro Geral:", error);
-    res.status(500).json({ error: "Erro interno no servidor." });
+    res.status(500).json({ error: "Erro interno." });
   }
 }
