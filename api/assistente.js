@@ -1,6 +1,5 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
 export default async function handler(req, res) {
+  // --- 1. CONFIGURAÇÃO DE CORS (PADRÃO) ---
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
@@ -15,16 +14,10 @@ export default async function handler(req, res) {
   }
 
   try {
-    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    
-    // === USANDO O FLASH COM A BIBLIOTECA ATUALIZADA (0.21.0) ===
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
+    // --- 2. PREPARAR DADOS ---
     let body = req.body;
     if (typeof body === 'string') {
-      try {
-        body = JSON.parse(body);
-      } catch (e) {}
+      try { body = JSON.parse(body); } catch (e) {}
     }
 
     const userMessage = body?.userMessage || body?.message || body?.prompt;
@@ -33,27 +26,50 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Mensagem vazia." });
     }
 
-    const chat = model.startChat({
-      history: [
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      return res.status(500).json({ error: "API Key não configurada." });
+    }
+
+    // --- 3. CONEXÃO DIRETA (SEM BIBLIOTECA) ---
+    // Usamos o endereço oficial da API REST do Google
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+
+    const payload = {
+      contents: [
         {
           role: "user",
-          parts: [{ text: "Você é o assistente virtual do portfólio do Allan Marques. Responda de forma curta e profissional." }],
-        },
-        {
-          role: "model",
-          parts: [{ text: "Entendido. Sou o assistente do Allan." }],
-        },
-      ],
+          parts: [{ text: "Você é o assistente virtual do portfólio do Allan Marques. Responda de forma curta e profissional. Contexto: " + userMessage }]
+        }
+      ]
+    };
+
+    // Faz a chamada "nua e crua"
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
     });
 
-    const result = await chat.sendMessage(userMessage);
-    const response = await result.response;
-    const text = response.text();
+    const data = await response.json();
 
+    // --- 4. TRATAMENTO DE ERROS DA API ---
+    if (!response.ok) {
+      console.error("Erro do Google:", data);
+      return res.status(response.status).json({ 
+        error: "Erro na API do Google", 
+        detalhes: data.error?.message || "Erro desconhecido" 
+      });
+    }
+
+    // --- 5. PEGAR A RESPOSTA E ENVIAR ---
+    const text = data.candidates[0].content.parts[0].text;
     res.status(200).json({ resposta: text });
 
   } catch (error) {
-    console.error("Erro API:", error);
-    res.status(500).json({ error: "Erro interno na IA." });
+    console.error("Erro Geral:", error);
+    res.status(500).json({ error: "Erro interno no servidor." });
   }
 }
