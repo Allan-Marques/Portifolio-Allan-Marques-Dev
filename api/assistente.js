@@ -1,63 +1,75 @@
 // Arquivo: api/assistente.js
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { NextResponse } from "next/server";
 
-// Configuração para Vercel entender que é uma Edge Function (opcional, mas bom para performance)
-export const config = {
-  runtime: 'edge', 
-}; 
-// NOTA: Se der erro com 'edge', remova as linhas 4-6 e use o padrão abaixo.
-// Mas vamos tentar primeiro o padrão Node.js clássico para garantir compatibilidade total:
+// Configuração: Dizemos ao Next.js que isso é uma rota dinâmica (não cachear estático)
+export const dynamic = 'force-dynamic';
 
-export default async function handler(req, res) {
-  // 1. CORS (Permite que seu front acesse o back)
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-  );
+// --- TRATAMENTO DE CORS (Preflight) ---
+// O navegador manda um 'OPTIONS' antes do POST para ver se pode falar com a API.
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    },
+  });
+}
 
-  // Trata requisição OPTIONS (Preflight do navegador)
-  if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
-  }
-
-  // Apenas aceita POST
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Método não permitido. Use POST.' });
-  }
-
+// --- A LÓGICA DO CHAT (POST) ---
+export async function POST(req) {
   try {
+    // 1. Validação da Chave (Segurança)
     const apiKey = process.env.GEMINI_API_KEY;
-    
     if (!apiKey) {
-      throw new Error("Chave de API não configurada no servidor (Variáveis de Ambiente).");
+      return NextResponse.json(
+        { error: "Chave de API não configurada no servidor." },
+        { status: 500 }
+      );
     }
 
-    // Parse do corpo da requisição
-    const { message } = req.body;
+    // 2. Parse do Corpo da Requisição (Jeito moderno)
+    const body = await req.json();
+    const { message } = body;
 
-    // Inicializa a IA
+    if (!message) {
+      return NextResponse.json(
+        { error: "Mensagem vazia." },
+        { status: 400 }
+      );
+    }
+
+    // 3. Acionamento do Perito (Gemini)
     const genAI = new GoogleGenerativeAI(apiKey);
     
-    // MODELO CORRIGIDO (Conforme sua auditoria)
+    // MODELO: Mantemos o 2.0 Flash que sua auditoria validou
     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
-    // Geração
     const result = await model.generateContent(message);
     const response = await result.response;
     const text = response.text();
 
-    // Resposta de Sucesso
-    return res.status(200).json({ result: text });
+    // 4. Construção da Resposta com CORS
+    // Aqui usamos NextResponse para garantir que os headers vão junto
+    return NextResponse.json(
+      { result: text },
+      {
+        status: 200,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'POST, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        },
+      }
+    );
 
   } catch (error) {
-    console.error("Erro na Perícia Digital (API):", error);
-    return res.status(500).json({ 
-      error: "Falha interna no processamento.", 
-      details: error.message 
-    });
+    console.error("Erro na Perícia Digital:", error);
+    return NextResponse.json(
+      { error: "Falha interna.", details: error.message },
+      { status: 500 }
+    );
   }
 }
