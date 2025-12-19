@@ -16,6 +16,27 @@ html {
     overflow-x: hidden;
 }
 
+/* Correção da Barra de Rolagem Dupla */
+html,
+body {
+    height: auto !important;
+    /* Deixa a altura crescer naturalmente */
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    /* Remove rolagem lateral */
+    overflow-y: auto;
+    /* Usa a rolagem padrão do navegador */
+}
+
+/* Garante que o container principal não crie outra barra */
+main,
+.container {
+    overflow: visible !important;
+    height: auto !important;
+}
+
 body {
     font-family: 'Roboto', sans-serif;
     background-color: #000;
