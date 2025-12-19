@@ -1,8 +1,15 @@
 /* ==========================================================================
-   CSS/style.css - CORREÇÃO MOBILE (SWIPER + HEADER)
+   CSS/style.css - VERSÃO DIDÁTICA E RESPONSIVA (REM)
    ========================================================================== */
 
-/* 1. RESET E BASE (CORREÇÃO PARA CELULAR)
+/* --------------------------------------------------------------------------
+   1. RESET E BASE
+   Aqui zeramos as margens padrão dos navegadores para ter controle total.
+   -------------------------------------------------------------------------- */
+*
+
+/* --------------------------------------------------------------------------
+   1. RESET E BASE (SCROLL ÚNICO DEFINITIVO)
    -------------------------------------------------------------------------- */
 * {
     margin: 0;
@@ -12,20 +19,23 @@
 
 html {
     width: 100%;
-    /* Removemos o height: 100% fixo que travava o scroll no mobile */
-    min-height: 100vh;
+    /* Altura 100% permite que o navegador gerencie o scroll principal */
+    height: 100%;
     overflow-x: hidden;
-    /* Evita rolagem lateral */
+    /* Sem rolagem lateral */
     scroll-behavior: smooth;
     font-size: 100%;
 }
 
 body {
     width: 100%;
+    /* Mínimo da tela cheia, mas cresce conforme o conteúdo */
     min-height: 100vh;
-    /* VOLTAMOS PARA O PADRÃO: Deixa o body rolar naturalmente */
+
+    /* A MÁGICA: visible impede que o body crie sua própria barra */
     overflow-x: hidden;
-    overflow-y: visible;
+    overflow-y: visible !important;
+
     position: relative;
     font-family: 'Roboto', sans-serif;
     background-color: #000;
@@ -33,15 +43,26 @@ body {
     line-height: 1.6;
 }
 
-/* Previne scrollbars fantasmas em elementos maiores */
+/* Garante que imagens e vídeos não estourem a largura e criem barra lateral */
 img,
 video,
 canvas {
     max-width: 100%;
     height: auto;
+    display: block;
+    /* Remove espaços fantasmas abaixo de imagens */
 }
 
-/* 2. TIPOGRAFIA
+/* Garante que containers principais não tentem rolar sozinhos */
+main,
+.container {
+    overflow: visible !important;
+    height: auto !important;
+}
+
+/* --------------------------------------------------------------------------
+   2. TIPOGRAFIA (FONTES)
+   Definimos onde usar a fonte futurista (Rajdhani) e a de código (Fira Code).
    -------------------------------------------------------------------------- */
 h1,
 h2,
@@ -55,7 +76,8 @@ header h1,
     font-family: 'Rajdhani', sans-serif;
     text-transform: uppercase;
     font-weight: 700;
-    letter-spacing: 1px;
+    letter-spacing: 0.06rem;
+    /* Espaçamento leve entre letras */
 }
 
 .mono,
@@ -68,9 +90,12 @@ code,
 .btn-secondary,
 .project-details {
     font-family: 'Fira Code', monospace;
+    /* Fonte estilo Hacker */
 }
 
-/* 3. BACKGROUND MATRIX
+/* --------------------------------------------------------------------------
+   3. FUNDO MATRIX (CANVAS)
+   O código caindo fica fixo no fundo e não interfere nos cliques.
    -------------------------------------------------------------------------- */
 #matrixCanvas {
     position: fixed;
@@ -79,15 +104,20 @@ code,
     width: 100vw;
     height: 100vh;
     z-index: -1;
+    /* Fica atrás de tudo */
     pointer-events: none;
+    /* Deixa você clicar no que está na frente */
 }
 
-/* 4. ESTRUTURA E HEADER
+/* --------------------------------------------------------------------------
+   4. ESTRUTURA E CABEÇALHO (HEADER)
    -------------------------------------------------------------------------- */
 .container {
     width: 90%;
     max-width: 75rem;
+    /* ~1200px */
     margin: 0 auto;
+    /* Centraliza na tela */
     padding: 0 1rem;
 }
 
@@ -100,28 +130,34 @@ section {
     justify-content: center;
 }
 
+/* ESTADO INICIAL DO HEADER (Transparente) */
 header {
     background-color: transparent;
     padding: 1rem 0;
     text-align: center;
     position: fixed;
-    /* Isso garante o imersivo */
+    /* Gruda no topo da tela */
     width: 100%;
     top: 0;
     left: 0;
     z-index: 2000;
+    /* Fica acima de tudo */
     transition: all 0.4s ease;
+    /* Animação suave ao mudar de cor */
 }
 
-/* Classe ativada pelo JS quando rola a página */
+/* ESTADO ROLAGEM (Imersivo)
+   Esta classe é adicionada pelo Javascript quando você rola a página */
 header.header-scrolled {
     background-color: rgba(5, 10, 5, 0.95);
-    /* Fundo escuro */
+    /* Fundo quase preto */
     border-bottom: 1px solid rgba(0, 255, 0, 0.3);
+    /* Linha verde sutil */
     backdrop-filter: blur(10px);
-    /* Efeito de vidro */
+    /* Efeito de vidro embaçado */
     padding: 0.7rem 0;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    /* Fica mais compacto */
+    box-shadow: 0 0.3rem 1rem rgba(0, 0, 0, 0.5);
 }
 
 header h1 {
@@ -129,6 +165,7 @@ header h1 {
     font-size: 1.8rem;
     margin-bottom: 0.3rem;
     text-shadow: 0 0 0.6rem #00aaff, 0 0 1.2rem #00aaff;
+    /* Neon Azul */
     animation: neon-blue-pulse 1.5s infinite alternate;
 }
 
@@ -139,15 +176,9 @@ header h1 {
     }
 
     100% {
-        text-shadow: 0 0 10px #00aaff, 0 0 20px #00aaff, 0 0 40px #00aaff;
+        text-shadow: 0 0 0.6rem #00aaff, 0 0 1.2rem #00aaff, 0 0 2.5rem #00aaff;
         opacity: 1;
     }
-}
-
-header .subtitle {
-    color: #00ff00;
-    font-size: 0.9rem;
-    font-weight: 500;
 }
 
 header nav ul {
@@ -157,7 +188,6 @@ header nav ul {
     flex-wrap: wrap;
     gap: 1.2rem;
     margin-top: 0.7rem;
-    padding: 0;
 }
 
 header nav ul li a {
@@ -179,10 +209,12 @@ header nav ul li a.active {
 }
 
 main {
-    padding-top: 140px;
+    padding-top: 8.75rem;
+    /* 140px - Compensa o header fixo para o conteúdo não sumir */
 }
 
-/* 5. TÍTULOS E ESTILOS GERAIS
+/* --------------------------------------------------------------------------
+   5. ESTILIZAÇÃO DE TÍTULOS
    -------------------------------------------------------------------------- */
 .section-title,
 .footer-title {
@@ -193,6 +225,7 @@ main {
     text-align: center;
     line-height: 1.2;
     text-shadow: 0 0 0.9rem rgba(255, 0, 0, 0.8);
+    /* Neon Vermelho */
 }
 
 .section-title::after,
@@ -212,9 +245,12 @@ main {
     text-align: center;
     margin: 2.5rem 0 1.5rem;
     text-shadow: 0 0 1rem rgba(0, 255, 0, 0.8);
+    /* Neon Verde */
 }
 
-/* 6. CARDS E COMPONENTES DE VIDRO
+/* --------------------------------------------------------------------------
+   6. CARDS (VIDRO E BORDA NEON)
+   Usado em Formação, Experiência e Skills
    -------------------------------------------------------------------------- */
 .glass-card,
 .card,
@@ -240,13 +276,15 @@ main {
     background: rgba(10, 20, 10, 0.8) !important;
     border-color: #00ff00;
     box-shadow: 0 0 2rem rgba(0, 255, 0, 0.25);
+    /* Glow Verde ao passar mouse */
 }
 
 .neon-green-border {
     border: 1px solid rgba(0, 255, 0, 0.3);
 }
 
-/* 7. PROJETO DESTAQUE
+/* --------------------------------------------------------------------------
+   7. PROJETO DESTAQUE (CODIFICADOR)
    -------------------------------------------------------------------------- */
 .featured-project-wrapper {
     width: 100%;
@@ -258,10 +296,11 @@ main {
 
 .neon-pulsing-card {
     width: 100%;
-    max-width: 900px;
+    max-width: 56rem;
+    /* 900px */
     border: 2px solid #00ff00;
     background: rgba(0, 20, 0, 0.6) !important;
-    animation: neonPulse 2s infinite alternate;
+    animation: neonPulse 1.5s infinite alternate;
     display: flex;
     align-items: center;
 }
@@ -300,7 +339,7 @@ main {
     }
 
     50% {
-        transform: translateY(-10px);
+        transform: translateY(-0.6rem);
     }
 }
 
@@ -311,12 +350,6 @@ main {
     text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
 }
 
-.featured-text p {
-    color: #ddd;
-    margin-bottom: 1rem;
-    font-size: 1.05rem;
-}
-
 .project-details {
     color: #00ff00 !important;
     margin-bottom: 1.5rem;
@@ -325,23 +358,24 @@ main {
 
 .btn-featured {
     display: inline-block;
-    padding: 12px 30px;
+    padding: 0.75rem 1.8rem;
     background: rgba(0, 255, 0, 0.1);
     border: 1px solid #00ff00;
     color: #00ff00;
     text-decoration: none;
-    border-radius: 4px;
+    border-radius: 0.25rem;
     transition: all 0.3s;
 }
 
 .btn-featured:hover {
     background: #00ff00;
     color: #000;
-    box-shadow: 0 0 20px #00ff00;
+    box-shadow: 0 0 1.2rem #00ff00;
     transform: scale(1.05);
 }
 
-/* 8. LISTA DE PROJETOS
+/* --------------------------------------------------------------------------
+   8. LISTA DE PROJETOS E SKILLS
    -------------------------------------------------------------------------- */
 .cards-wrapper {
     display: flex;
@@ -394,15 +428,7 @@ main {
     box-shadow: 0 0 1.2rem #00ff00;
 }
 
-/* 9. SEÇÃO SOBRE MIM & SKILLS
-   -------------------------------------------------------------------------- */
-.about-text {
-    padding: 2.5rem;
-    font-size: 1.1rem;
-    line-height: 1.8;
-    text-align: justify;
-}
-
+/* 9. SKILLS */
 .skills-columns {
     display: flex;
     flex-wrap: wrap;
@@ -447,8 +473,7 @@ main {
     color: #3498db;
 }
 
-/* 11. FORMAÇÃO
-   -------------------------------------------------------------------------- */
+/* 10. FORMAÇÃO (GRID) */
 .formacao-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
@@ -467,17 +492,19 @@ main {
     margin-right: 0.8rem;
 }
 
-/* 12. SWIPER (CORREÇÃO DE LAYOUT)
+/* --------------------------------------------------------------------------
+   11. SWIPER (CERTIFICADOS E GALERIA)
+   Aqui corrigimos os "pixels fixos" para "rem" e ajustamos o layout mobile.
    -------------------------------------------------------------------------- */
 .certificacoes-swiper-container {
     width: 100%;
     padding: 0 0 3rem;
     margin-bottom: 0;
     overflow: hidden;
-    /* Mantém o carrossel contido */
+    /* Mantém os slides dentro da área */
 }
 
-/* Força o layout horizontal dos slides */
+/* Garante que os slides fiquem lado a lado */
 .swiper-wrapper {
     display: flex;
     flex-direction: row;
@@ -485,7 +512,9 @@ main {
 
 .certificacoes-swiper-container .swiper-slide {
     width: 22rem !important;
+    /* ~352px */
     height: 16rem !important;
+    /* ~256px */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -496,8 +525,14 @@ main {
     border: 1px solid rgba(0, 255, 0, 0.3);
     padding: 0 !important;
     transition: all 0.5s ease;
-    /* Garante que não encolham */
     flex-shrink: 0;
+    /* Impede que esmaguem */
+}
+
+.certificacoes-swiper-container .swiper-slide:hover {
+    transform: translateY(-0.5rem) scale(1.02);
+    border-color: #00ff00;
+    box-shadow: 0 0 1.5rem rgba(0, 255, 0, 0.5);
 }
 
 .certificacoes-swiper-container .swiper-slide img {
@@ -510,7 +545,7 @@ main {
     display: none;
 }
 
-/* Galeria */
+/* Galeria de Fotos (Quadrada) */
 .experiencia-gallery {
     width: 100%;
     padding-bottom: 3rem;
@@ -518,10 +553,9 @@ main {
 }
 
 .gallery-slide {
-    background-position: center;
-    background-size: cover;
-    width: 17.5rem;
-    height: 17.5rem;
+    width: 17.5rem !important;
+    /* ~280px */
+    height: 17.5rem !important;
     border-radius: 0.6rem;
     border: 2px solid #00ff00;
     overflow: hidden;
@@ -547,7 +581,8 @@ main {
     opacity: 1;
 }
 
-/* 13. EXPERIÊNCIA E RODAPÉ
+/* --------------------------------------------------------------------------
+   12. EXPERIÊNCIA E RODAPÉ
    -------------------------------------------------------------------------- */
 .experiencia-wrapper {
     display: flex;
@@ -642,14 +677,17 @@ main {
     font-size: 0.8rem;
 }
 
-/* 14. CHAT ASSISTENTE
+/* --------------------------------------------------------------------------
+   13. CHAT ASSISTENTE (DIMENSÕES EM REM)
    -------------------------------------------------------------------------- */
 #chat-launcher {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 65px;
-    height: 65px;
+    bottom: 1.25rem;
+    /* 20px */
+    right: 1.25rem;
+    width: 4rem;
+    /* 64px */
+    height: 4rem;
     z-index: 2147483647 !important;
     cursor: pointer;
     display: flex !important;
@@ -658,8 +696,8 @@ main {
     background: #000;
     border: 2px solid #00ff00;
     border-radius: 50%;
-    box-shadow: 0 0 20px rgba(0, 255, 0, 0.4);
-    animation: pulse 3s infinite;
+    box-shadow: 0 0 1.25rem rgba(0, 255, 0, 0.4);
+    animation: pulse 1.5s infinite;
 }
 
 #chat-launcher img {
@@ -685,22 +723,25 @@ main {
 
 #chat-window {
     position: fixed;
-    bottom: 100px;
-    right: 20px;
-    width: 350px;
-    height: 500px;
+    bottom: 6.25rem;
+    /* 100px */
+    right: 1.25rem;
+    width: 22rem;
+    /* ~350px */
+    height: 31.25rem;
+    /* ~500px */
     background: rgba(5, 10, 5, 0.98);
     backdrop-filter: blur(10px);
     border: 1px solid #00ff00;
-    border-radius: 10px;
+    border-radius: 0.6rem;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 0 50px rgba(0, 0, 0, 0.9);
+    box-shadow: 0 0 3rem rgba(0, 0, 0, 0.9);
 
     /* Estado Oculto */
     opacity: 0;
     visibility: hidden;
-    transform: translateY(20px);
+    transform: translateY(1.25rem);
     transition: all 0.3s ease-in-out;
     z-index: 2147483646 !important;
 }
@@ -800,15 +841,17 @@ main {
     }
 }
 
-/* 15. RESPONSIVIDADE MOBILE (MAX-WIDTH: 768px)
+/* --------------------------------------------------------------------------
+   14. RESPONSIVIDADE MOBILE (MAX-WIDTH: 768px)
+   Aqui ajustamos tudo para telas pequenas.
    -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
 
     html {
         font-size: 14px;
+        /* Diminui a fonte base: 1rem vira 14px */
     }
 
-    /* Estrutura */
     .container {
         width: 100%;
         padding: 0 1.2rem;
@@ -826,6 +869,7 @@ main {
         display: none;
     }
 
+    /* Esconde subtítulo para poupar espaço */
     header nav ul {
         gap: 0.5rem;
         margin-top: 0.5rem;
@@ -837,10 +881,10 @@ main {
     }
 
     main {
-        padding-top: 120px;
+        padding-top: 7.5rem;
     }
 
-    /* Layout em Coluna Única */
+    /* Transforma grids em colunas únicas */
     .cards-wrapper,
     .skills-columns,
     .formacao-grid {
@@ -848,7 +892,6 @@ main {
         grid-template-columns: 1fr;
     }
 
-    /* Correção do Destaque */
     .featured-content {
         flex-direction: column;
         text-align: center;
@@ -859,27 +902,27 @@ main {
         margin-bottom: 0.5rem;
     }
 
-    /* Chat Mobile */
+    /* Chat Mobile Ocupando tela de forma inteligente */
     #chat-window {
         width: 90% !important;
         right: 5% !important;
-        bottom: 90px !important;
+        bottom: 5.6rem !important;
         height: 60vh !important;
     }
 
     #chat-launcher {
-        width: 60px;
-        height: 60px;
-        bottom: 15px;
-        right: 15px;
+        width: 3.75rem;
+        height: 3.75rem;
+        bottom: 1rem;
+        right: 1rem;
     }
 
-    /* Slides Responsivos - FORÇANDO O COMPORTAMENTO DE SLIDE */
+    /* Ajuste Fino dos Slides Mobile */
     .certificacoes-swiper-container .swiper-slide {
         width: 19rem !important;
         height: 13.5rem !important;
-        /* Garante margem para não colar */
         margin-right: 1rem;
+        /* Separação visual */
     }
 
     .gallery-slide {

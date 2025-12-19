@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function addLoading() {
         const div = document.createElement('div');
         div.classList.add('mensagem', 'assistente', 'loading-msg');
-        div.innerHTML = `${systemPrefix} <span class="blink">Analisando dados...</span>`;
+        div.innerHTML = `${systemPrefix} <span class="blink">_</span>`;
         chatBody.appendChild(div);
         chatBody.scrollTop = chatBody.scrollHeight;
         return div;
