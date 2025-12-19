@@ -46,7 +46,6 @@ DIRETRIZES FINAIS:
 - Seja breve. Evite "palestras" desnecessárias.
 `;
 export default async function handler(req, res) {
-  // CORS
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
@@ -70,28 +69,28 @@ export default async function handler(req, res) {
 
     let userMessage = null;
     if (req.body) {
-      if (typeof req.body === 'object') {
-        userMessage = req.body.message;
-      } else if (typeof req.body === 'string') {
-        try {
-          const parsed = JSON.parse(req.body);
-          userMessage = parsed.message;
-        } catch (e) {
-          console.error("Erro JSON:", e);
+        if (typeof req.body === 'object') {
+            userMessage = req.body.message;
+        } else if (typeof req.body === 'string') {
+            try {
+                const parsed = JSON.parse(req.body);
+                userMessage = parsed.message;
+            } catch (e) {
+                console.error("Erro JSON:", e);
+            }
         }
-      }
     }
 
     if (!userMessage) {
       return res.status(400).json({ error: "Mensagem vazia." });
     }
 
-    // --- A MÁGICA ACONTECE AQUI ---
-    // Nós juntamos a instrução do sistema com a pergunta do usuário
-    const finalPrompt = `${SYSTEM_INSTRUCTION}\n\nPERGUNTA DO USUÁRIO (Responda com base no contexto acima): ${userMessage}`;
+    // --- LOG DE AUDITORIA (Vercel Logs) ---
+    console.log(`[AUDITORIA] Pergunta: "${userMessage}" | IP: ${req.headers['x-forwarded-for'] || 'Local'}`);
+
+    const finalPrompt = `${SYSTEM_INSTRUCTION}\n\n=================\nÚLTIMA MENSAGEM DO USUÁRIO: ${userMessage}\n=================\nRESPOSTA DO ASSISTENTE:`;
 
     const genAI = new GoogleGenerativeAI(apiKey);
-    // Exemplo hipotético de troca
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
     const result = await model.generateContent(finalPrompt);
@@ -102,6 +101,12 @@ export default async function handler(req, res) {
 
   } catch (error) {
     console.error("Erro API:", error);
-    return res.status(500).json({ error: "Falha no processamento.", details: error.message });
+    if (error.message.includes("429") || error.message.includes("Quota")) {
+        return res.status(429).json({ error: "Cota excedida temporariamente. Tente em instantes." });
+    }
+    if (error.message.includes("404")) {
+         return res.status(500).json({ error: "Erro de Configuração: Modelo de IA não disponível." });
+    }
+    return res.status(500).json({ error: "Falha interna.", details: error.message });
   }
 }

@@ -1,15 +1,13 @@
 /* ==========================================================================
    ARQUIVO: js/assistente.js
-   DESCRIÇÃO: Interface do Terminal Forense (Conexão com Gemini 2.0)
+   DESCRIÇÃO: Interface do Terminal Forense (Versão com Links Clicáveis)
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', function () {
     
-    // --- 1. CONFIGURAÇÕES ---
     const API_URL = '/api/assistente'; 
     const systemPrefix = '<span class="prompt-user">root@allan:~#</span>';
 
-    // --- 2. SELEÇÃO DE ELEMENTOS ---
     const chatInput = document.getElementById('chat-input');
     const chatSend = document.getElementById('chat-enviar');
     const chatBody = document.getElementById('chat-corpo');
@@ -20,17 +18,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let isWaiting = false;
 
-    // --- 3. FUNÇÕES VISUAIS ---
-    
     function toggleChat() {
         chatWindow.classList.toggle('active');
-        
-        // Toca áudio (Efeito Matrix)
         if (bgAudio && bgAudio.paused) {
             bgAudio.volume = 0.5;
             bgAudio.play().catch(e => console.log("Áudio bloqueado pelo navegador"));
         }
-
         if (window.innerWidth > 768 && chatWindow.classList.contains('active')) {
             setTimeout(() => chatInput.focus(), 300);
         }
@@ -41,9 +34,16 @@ document.addEventListener('DOMContentLoaded', function () {
         div.classList.add('mensagem', type);
         
         if (type === 'assistente') {
-            // Se vier texto com quebras de linha da IA, converte para <br>
-            // E aplica formatação Markdown básica se necessário (negrito)
+            // 1. Formata Negrito
             let formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            
+            // 2. DETECTA LINKS (HTTP/HTTPS) E CRIA TAGS <A>
+            formattedText = formattedText.replace(
+                /(https?:\/\/[^\s]+)/g, 
+                '<a href="$1" target="_blank" style="color: #00ff00; text-decoration: underline; word-break: break-all;">$1</a>'
+            );
+
+            // 3. Quebra de linha
             formattedText = formattedText.replace(/\n/g, '<br>');
             
             div.innerHTML = `${systemPrefix} ${formattedText}`;
@@ -65,25 +65,16 @@ document.addEventListener('DOMContentLoaded', function () {
         return div;
     }
 
-    // --- 4. COMUNICAÇÃO COM O CÉREBRO (BACKEND) ---
-
     async function processCommand(userText) {
         if (isWaiting) return;
         isWaiting = true;
         const loadingDiv = addLoading();
 
         try {
-            // --- CONEXÃO COM A API VERCEL ---
             const response = await fetch(API_URL, {
                 method: 'POST',
-                headers: {
-                    // CORREÇÃO CRÍTICA PARA ERRO 400:
-                    'Content-Type': 'application/json' 
-                },
-                // CORREÇÃO DE PROTOCOLO: O backend espera 'message', não 'userMessage'
-                body: JSON.stringify({ 
-                    message: `[Contexto: Você é o Assistente Virtual do Perito Allan Marques. Responda de forma técnica e breve.] Usuário diz: ${userText}` 
-                })
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: userText })
             });
 
             if (!response.ok) {
@@ -92,23 +83,18 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             const data = await response.json();
-            
-            // Sucesso: Remove loading e mostra resposta
             loadingDiv.remove();
             addMessage(data.result, 'assistente');
 
         } catch (error) {
             console.error("Falha na Operação:", error);
             loadingDiv.remove();
-            
-            // Mensagem de Erro amigável
             addMessage(`ERRO CRÍTICO: Falha na conexão com o servidor. (${error.message})`, 'assistente');
         } finally {
             isWaiting = false;
         }
     }
 
-    // --- 5. CONTROLES ---
     function sendMessage() {
         const text = chatInput.value.trim();
         if (text && !isWaiting) {
@@ -119,9 +105,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if(window.innerWidth > 768) chatInput.focus();
     }
 
-    // Eventos
     if (chatLauncher) {
-        // Remove clones antigos para evitar duplo clique
         const newLauncher = chatLauncher.cloneNode(true);
         chatLauncher.parentNode.replaceChild(newLauncher, chatLauncher);
         newLauncher.addEventListener('click', toggleChat);
