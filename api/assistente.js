@@ -2,7 +2,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export default async function handler(req, res) {
-  // CORS Setup
+  // Configuração de CORS (Permissão de acesso)
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
@@ -17,17 +17,15 @@ export default async function handler(req, res) {
   }
 
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Use POST' });
+    return res.status(405).json({ error: 'Método não permitido. Use POST.' });
   }
 
   try {
     const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) throw new Error("API Key ausente");
+    if (!apiKey) throw new Error("Chave de API não configurada.");
 
-    // --- ANÁLISE FORENSE DO BODY (DEBUG) ---
-    // Se o body for string (veio sem header JSON), tentamos parsear manualmente
+    // Tratamento de Body (Parsing Seguro)
     let message = null;
-
     if (req.body) {
         if (typeof req.body === 'object') {
             message = req.body.message;
@@ -36,20 +34,20 @@ export default async function handler(req, res) {
                 const parsed = JSON.parse(req.body);
                 message = parsed.message;
             } catch (e) {
-                console.error("Erro ao fazer parse do JSON:", e);
+                console.error("Erro no JSON:", e);
             }
         }
     }
 
-    // Se após tentar ler, a mensagem continuar vazia, aí sim damos Erro 400
     if (!message) {
-      console.error("Body recebido inválido:", req.body);
-      return res.status(400).json({ error: "Mensagem vazia ou formato inválido. Verifique o Content-Type." });
+      return res.status(400).json({ error: "Mensagem vazia ou formato inválido." });
     }
 
-    // IA
+    // --- ATIVAÇÃO DO GEMINI 2.5 FLASH ---
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    
+    // Usando o modelo exato que apareceu no seu scanner
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
     const result = await model.generateContent(message);
     const response = await result.response;
@@ -58,7 +56,16 @@ export default async function handler(req, res) {
     return res.status(200).json({ result: text });
 
   } catch (error) {
-    console.error("Erro fatal:", error);
-    return res.status(500).json({ error: error.message });
+    console.error("Erro na API:", error);
+    
+    // Se der erro de cota (429) ou modelo não encontrado (404), avisamos o front
+    if (error.message.includes("429") || error.message.includes("Quota")) {
+        return res.status(429).json({ error: "Cota de uso excedida para este modelo experimental." });
+    }
+    
+    return res.status(500).json({ 
+        error: "Falha interna.", 
+        details: error.message 
+    });
   }
 }
