@@ -46,6 +46,7 @@ DIRETRIZES FINAIS:
 - Seja breve. Evite "palestras" desnecessárias.
 `;
 export default async function handler(req, res) {
+  // Configuração de CORS (Permissões de acesso)
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
@@ -85,27 +86,39 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Mensagem vazia." });
     }
 
-    // --- LOG DE AUDITORIA (Vercel Logs) ---
+    // --- LOG DE AUDITORIA ---
     console.log(`[AUDITORIA] Pergunta: "${userMessage}" | IP: ${req.headers['x-forwarded-for'] || 'Local'}`);
 
     const finalPrompt = `${SYSTEM_INSTRUCTION}\n\n=================\nÚLTIMA MENSAGEM DO USUÁRIO: ${userMessage}\n=================\nRESPOSTA DO ASSISTENTE:`;
 
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+    let text = "";
 
-    const result = await model.generateContent(finalPrompt);
-    const response = await result.response;
-    const text = response.text();
+    // --- LÓGICA DE FALLBACK (PLANO A -> PLANO B) ---
+    try {
+        // TENTATIVA 1: Modelo Principal (Mais avançado, mas com menos cota)
+        console.log("Tentando modelo Gemini 2.5 Flash...");
+        const modelPrimary = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+        const result = await modelPrimary.generateContent(finalPrompt);
+        const response = await result.response;
+        text = response.text();
+    } catch (errorPrimary) {
+        // SE FALHAR (Erro 429, 404, etc), TENTA O PLANO B
+        console.warn(`⚠️ Falha no Gemini 2.5 (${errorPrimary.message}). Tentando Fallback para 1.5 Flash...`);
+        
+        // TENTATIVA 2: Modelo Estável (Cota maior)
+        const modelFallback = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const result = await modelFallback.generateContent(finalPrompt);
+        const response = await result.response;
+        text = response.text();
+    }
 
     return res.status(200).json({ result: text });
 
   } catch (error) {
-    console.error("Erro API:", error);
-    if (error.message.includes("429") || error.message.includes("Quota")) {
-        return res.status(429).json({ error: "Cota excedida temporariamente. Tente em instantes." });
-    }
-    if (error.message.includes("404")) {
-         return res.status(500).json({ error: "Erro de Configuração: Modelo de IA não disponível." });
+    console.error("Erro Crítico API:", error);
+    if (error.message.includes("429")) {
+        return res.status(429).json({ error: "Muitas requisições. Tente novamente em 1 minuto." });
     }
     return res.status(500).json({ error: "Falha interna.", details: error.message });
   }
