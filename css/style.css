@@ -1,8 +1,8 @@
 /* ==========================================================================
-   CSS/style.css - VERSÃO "SAFE MODE" (SCROLL FIXO + BOTÕES VISÍVEIS)
+   CSS/style.css - VERSÃO FINAL (GALERIA CENTRALIZADA E COM ZOOM)
    ========================================================================== */
 
-/* 1. RESET E BASE (A REGRA QUE FUNCIONAVA)
+/* 1. RESET E BASE
    -------------------------------------------------------------------------- */
 * {
     margin: 0;
@@ -12,22 +12,23 @@
 
 html {
     width: 100%;
-    /* O SEGREDO: Height auto e overflow-y auto no HTML destrava o scroll da janela */
     height: auto !important;
+    /* Altura auto para o scroll JS funcionar */
     min-height: 100%;
+    /* Bloqueia rolagem horizontal, essencial para o fix da galeria */
     overflow-x: hidden;
-    overflow-y: auto !important;
     scroll-behavior: smooth;
     font-size: 100%;
-    /* 1rem = 16px */
 }
 
 body {
     width: 100%;
     min-height: 100vh;
     position: relative;
-    /* O SEGREDO 2: Body visível, sem travas, para deixar o HTML rolar */
-    overflow: visible !important;
+    /* Reforço contra rolagem horizontal */
+    overflow-x: hidden;
+    overflow-y: visible !important;
+    /* Garante o scroll vertical */
     font-family: 'Roboto', sans-serif;
     background-color: #000;
     color: #e0e0e0;
@@ -42,7 +43,7 @@ canvas {
     display: block;
 }
 
-/* 2. TIPOGRAFIA (REM)
+/* 2. TIPOGRAFIA
    -------------------------------------------------------------------------- */
 h1,
 h2,
@@ -89,11 +90,12 @@ code,
     width: 100%;
     max-width: 75rem;
     margin: 0 auto;
+    /* Padding lateral padrão do site */
     padding: 0 1rem;
 }
 
 section {
-    padding: 1rem 0;
+    padding: 3rem 0;
     position: relative;
     z-index: 1;
     display: flex;
@@ -101,46 +103,29 @@ section {
     justify-content: center;
 }
 
-
-/* HEADER COM LARGURA SEGURA */
 header {
     background-color: transparent;
     padding: 1rem 0;
-    /* Espaço vertical apenas */
     text-align: center;
     position: fixed;
-
-    /* SEGURANÇA DE LARGURA */
     width: 100%;
+    top: 0;
     left: 0;
     right: 0;
-    max-width: 100vw;
-    /* Garante que não passe da viewport */
-
     z-index: 2000;
     transition: all 0.4s ease;
 }
 
-/* Garante que o conteúdo dentro do header não estoure */
-header .container {
-    width: 100%;
-    max-width: 75rem;
-    /* Respeita o limite do site */
-    margin: 0 auto;
-    padding: 0 1rem;
-    /* Margem de segurança lateral */
-}
-
-/* Estado de Scroll (Vidro) */
+/* Fundo escuro ao rolar */
 header.header-scrolled {
     background-color: rgba(5, 10, 5, 0.95);
     border-bottom: 0.0625rem solid rgba(0, 255, 0, 0.3);
-    backdrop-filter: blur(0.625rem);
+    backdrop-filter: blur(10px);
     padding: 0.7rem 0;
     box-shadow: 0 0.3rem 1rem rgba(0, 0, 0, 0.5);
 }
 
-/* Estado Oculto (Smart Header) */
+/* Ocultar cabeçalho (Controlado pelo JS) */
 header.hide-header {
     transform: translateY(-100%);
 }
@@ -228,7 +213,7 @@ main {
     text-shadow: 0 0 1rem rgba(0, 255, 0, 0.8);
 }
 
-/* 6. CARDS GERAIS
+/* 6. CARDS GERAIS (DESKTOP)
    -------------------------------------------------------------------------- */
 .glass-card,
 .card,
@@ -267,14 +252,14 @@ main {
     display: flex;
     justify-content: center;
     margin-bottom: 3rem;
-    padding: 0 1rem;
+    padding: 0 0rem;
 }
 
 .neon-pulsing-card {
     width: 100%;
     max-width: 56rem;
     border: 0.125rem solid #00ff00;
-    background: rgba(0, 34, 0, 0) !important;
+    background: rgba(0, 20, 0, 0.6) !important;
     animation: neonPulse 2s infinite alternate;
     display: flex;
     align-items: center;
@@ -349,7 +334,7 @@ main {
     transform: scale(1.05);
 }
 
-/* 8. LISTA DE PROJETOS E BOTÕES (GARANTIA DE VISIBILIDADE)
+/* 8. LISTA DE PROJETOS E BOTÕES (DESKTOP)
    -------------------------------------------------------------------------- */
 .cards-wrapper {
     display: flex;
@@ -387,7 +372,6 @@ main {
     font-size: 1.4rem;
 }
 
-/* Botão Secundário (VISÍVEL SEMPRE) */
 .btn-secondary {
     margin-top: auto;
     display: inline-block;
@@ -399,8 +383,6 @@ main {
     border-radius: 0.25rem;
     transition: 0.5s;
     text-align: center;
-    width: 100%;
-    /* Ocupa tudo para ficar fácil de clicar */
 }
 
 .btn-secondary:hover {
@@ -473,7 +455,7 @@ main {
     margin-right: 0.8rem;
 }
 
-/* 10. SWIPER
+/* 10. SWIPER (DESKTOP)
    -------------------------------------------------------------------------- */
 .certificacoes-swiper-container {
     width: 100%;
@@ -488,8 +470,8 @@ main {
 }
 
 .certificacoes-swiper-container .swiper-slide {
-    width: 22rem !important;
-    height: 16rem !important;
+    width: 21rem !important;
+    height: 14rem !important;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -522,8 +504,8 @@ main {
 }
 
 .gallery-slide {
-    width: 17.5rem !important;
-    height: 17.5rem !important;
+    width: 17rem !important;
+    height: 17rem !important;
     border-radius: 0.6rem;
     border: 0.125rem solid #00ff00;
     overflow: hidden;
@@ -661,7 +643,7 @@ main {
     border: 0.125rem solid #00ff00;
     border-radius: 50%;
     box-shadow: 0 0 1.25rem rgba(0, 255, 0, 0.4);
-    animation: pulse 1.45s infinite;
+    animation: pulse 3s infinite;
 }
 
 #chat-launcher img {
@@ -677,7 +659,7 @@ main {
     }
 
     70% {
-        box-shadow: 0 0 0 1rem rgba(0, 0, 0, 0.158);
+        box-shadow: 0 0 0 1rem rgba(0, 0, 0, 0);
     }
 
     100% {
@@ -800,39 +782,15 @@ main {
     }
 }
 
-/* 13. RESPONSIVIDADE MOBILE (MAX-WIDTH: 768px)
-   -------------------------------------------------------------------------- */
-
-/* Ajuste Fino dos Slides Mobile - CENTRALIZAÇÃO */
-.certificacoes-swiper-container .swiper-slide {
-    width: 17rem !important;
-    /* Um pouco menor para caber em telas pequenas */
-    height: 13.5rem !important;
-    margin-right: 0 !important;
-    /* REMOVE A MARGEM QUE DESCENTRALIZA */
-}
-
-.gallery-slide {
-    width: 17rem !important;
-    /* Quadrado perfeito centralizado */
-    height: 17rem !important;
-    margin-right: 0 !important;
-    /* REMOVE A MARGEM QUE DESCENTRALIZA */
-}
-
-/* Garante que o container ocupe a tela toda para o cálculo do centro funcionar */
-.certificacoes-swiper-container,
-.experiencia-gallery {
-    width: 100% !important;
-    padding-left: 0;
-    padding-right: 0;
-}
-
+/* ==========================================================================
+   13. RESPONSIVIDADE MOBILE E TELAS HD (ATÉ 816px / 51rem)
+   ========================================================================== */
 @media (max-width: 51rem) {
     html {
-        font-size: 0.9rem;
+        font-size: 14px;
     }
 
+    /* Container mantém o padding lateral */
     .container {
         width: 100%;
         padding: 0 1.2rem;
@@ -843,7 +801,7 @@ main {
     }
 
     header h1 {
-        font-size: 1.7rem;
+        font-size: 1.6rem;
     }
 
     header .subtitle {
@@ -864,7 +822,7 @@ main {
         padding-top: 7.5rem;
     }
 
-    /* LAYOUT EM COLUNA (Correção de Descentralização) */
+    /* LAYOUT EM COLUNA */
     .cards-wrapper,
     .skills-columns,
     .formacao-grid {
@@ -874,26 +832,7 @@ main {
         align-items: center;
     }
 
-    /* FIX DOS CARDS MOBILE */
-    .card {
-        width: 100% !important;
-        max-width: 100% !important;
-        /* Evita que estoure a tela */
-        margin-bottom: 2rem;
-        height: auto !important;
-        /* Deixa o card crescer para caber o botão */
-        min-height: auto !important;
-    }
-
-    /* BOTÕES VISÍVEIS NO MOBILE (Correção: Não sumir) */
-    .card .btn-secondary {
-        display: inline-block !important;
-        /* Força visibilidade */
-        width: 100%;
-        margin-top: 1.5rem;
-    }
-
-    /* Outros ajustes */
+    /* FIX 1: ÍCONES ACIMA DO TÍTULO */
     .featured-content {
         flex-direction: column;
         text-align: center;
@@ -904,11 +843,122 @@ main {
         margin-bottom: 0.5rem;
     }
 
-    #chat-window {
+    .interactive-card h3 {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        gap: 0.8rem !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .interactive-card h3 i {
+        margin: 0 !important;
+        font-size: 2.5rem !important;
+        color: #00ff00;
+        line-height: 1 !important;
+    }
+
+    .interactive-card h3 span,
+    .interactive-card h3 strong {
+        margin-top: 0 !important;
+    }
+
+    /* FIX 2: CARD PROJETO (Imagem até a borda) */
+    .card {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-bottom: 2rem;
+        height: auto !important;
+        padding: 0 !important;
+        border: 0.0625rem solid rgba(0, 255, 0, 0.3);
+        overflow: hidden;
+    }
+
+    .card-image {
+        width: 100%;
+        margin: 0 !important;
+        border: none !important;
+        object-fit: cover;
+        /* Garante preenchimento sem distorcer */
+    }
+
+    .card-content {
+        padding: 1.5rem !important;
+    }
+
+    .card .btn-secondary {
+        display: inline-block !important;
+        width: auto !important;
+        margin: 1rem auto 0 auto;
+        padding: 0.4rem 1.2rem;
+        font-size: 0.85rem;
+        border: 1px solid #00ff00;
+        background: transparent;
+    }
+
+    /* FIX 3: SLIDES CENTRALIZADOS E COM ZOOM (COVER) */
+    /* O segredo da centralização: quebrar o padding do container pai */
+    .certificacoes-swiper-container,
+    .experiencia-gallery {
+        width: auto !important;
+        /* Deixa a largura se ajustar */
+        margin-left: -1.2rem !important;
+        /* Compensa o padding esquerdo do .container */
+        margin-right: -1.2rem !important;
+        /* Compensa o padding direito do .container */
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .certificacoes-swiper-container .swiper-slide {
         width: 90% !important;
-        right: 5% !important;
-        bottom: 5.6rem !important;
-        height: 60vh !important;
+        height: auto !important;
+        aspect-ratio: 4/3;
+        /* Margem automática ajuda o Swiper a centralizar */
+        margin-left: center !important;
+        margin-right: center !important;
+    }
+
+    .gallery-slide {
+        width: 90% !important;
+        height: auto !important;
+        aspect-ratio: 1/1;
+        /* Margem automática ajuda o Swiper a centralizar */
+        margin-left: center !important;
+        margin-right: center !important;
+    }
+
+    /* FIX ZOOM: Usa 'cover' para preencher sem buracos */
+    .certificacoes-swiper-container .swiper-slide img,
+    .gallery-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover !important;
+    }
+
+    /* OUTROS */
+    .skill-category,
+    .formacao-item {
+        width: 100% !important;
+        margin-bottom: 1.5rem;
+    }
+
+    .about-text {
+        padding: 1rem;
+        text-align: left;
+    }
+
+    .section-title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    #chat-window {
+        width: 90%;
+        right: 5%;
+        bottom: 6rem;
+        height: 60vh;
     }
 
     #chat-launcher {
@@ -916,27 +966,5 @@ main {
         height: 3.75rem;
         bottom: 1rem;
         right: 1rem;
-    }
-
-    .certificacoes-swiper-container .swiper-slide {
-        width: 19rem !important;
-        height: 13.5rem !important;
-        margin-right: 1rem;
-    }
-
-    .gallery-slide {
-        width: 18rem !important;
-        height: 18rem !important;
-        margin-right: 1rem;
-    }
-
-    .about-text {
-        padding: 1.5rem;
-        text-align: left;
-    }
-
-    .section-title {
-        font-size: 2rem;
-        margin-bottom: 2rem;
     }
 }
