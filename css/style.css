@@ -3,7 +3,10 @@
    ========================================================================== */
 
 /* 1. RESET E BASE
-   -------------------------------------------------------------------------- */
+   --------------------------------------------------------------------------
+   Remove margens padrão e define o comportamento base da página.
+   Configura o scroll e a cor de fundo personalizada (#16001b).
+*/
 * {
     margin: 0;
     padding: 0;
@@ -30,7 +33,8 @@ body {
     overflow-y: visible !important;
     /* Garante o scroll vertical */
     font-family: 'Roboto', sans-serif;
-    background-color: #000;
+    background-color: #16001b;
+    /* Cor de fundo roxa escura definida por você */
     color: #e0e0e0;
     line-height: 1.6;
 }
@@ -44,7 +48,9 @@ canvas {
 }
 
 /* 2. TIPOGRAFIA
-   -------------------------------------------------------------------------- */
+   --------------------------------------------------------------------------
+   Definição das fontes Rajdhani (títulos) e Fira Code (técnico).
+*/
 h1,
 h2,
 h3,
@@ -73,7 +79,9 @@ code,
 }
 
 /* 3. FUNDO MATRIX
-   -------------------------------------------------------------------------- */
+   --------------------------------------------------------------------------
+   Canvas para o efeito de chuva de código ao fundo.
+*/
 #matrixCanvas {
     position: fixed;
     top: 0;
@@ -85,7 +93,9 @@ code,
 }
 
 /* 4. ESTRUTURA E CABEÇALHO
-   -------------------------------------------------------------------------- */
+   --------------------------------------------------------------------------
+   Configuração do container principal e do Header fixo.
+*/
 .container {
     width: 100%;
     max-width: 75rem;
@@ -116,7 +126,7 @@ header {
     transition: all 0.4s ease;
 }
 
-/* Fundo escuro ao rolar */
+/* Fundo escuro ao rolar a página */
 header.header-scrolled {
     background-color: rgba(5, 10, 5, 0.95);
     border-bottom: 0.0625rem solid rgba(0, 255, 0, 0.3);
@@ -182,7 +192,9 @@ main {
 }
 
 /* 5. TÍTULOS
-   -------------------------------------------------------------------------- */
+   --------------------------------------------------------------------------
+   Estilização dos títulos de seção com efeito neon vermelho.
+*/
 .section-title,
 .footer-title {
     font-size: 2.2rem;
@@ -214,7 +226,9 @@ main {
 }
 
 /* 6. CARDS GERAIS (DESKTOP)
-   -------------------------------------------------------------------------- */
+   --------------------------------------------------------------------------
+   Estilos base dos cards: vidro, bordas, sombras e hover.
+*/
 .glass-card,
 .card,
 .interactive-card,
@@ -246,7 +260,9 @@ main {
 }
 
 /* 7. PROJETO DESTAQUE
-   -------------------------------------------------------------------------- */
+   --------------------------------------------------------------------------
+   Card principal do topo com animação de pulso neon.
+*/
 .featured-project-wrapper {
     width: 100%;
     display: flex;
@@ -335,7 +351,9 @@ main {
 }
 
 /* 8. LISTA DE PROJETOS E BOTÕES (DESKTOP)
-   -------------------------------------------------------------------------- */
+   --------------------------------------------------------------------------
+   Grid de projetos secundários e botões.
+*/
 .cards-wrapper {
     display: flex;
     flex-wrap: wrap;
@@ -392,7 +410,9 @@ main {
 }
 
 /* 9. SKILLS & FORMAÇÃO
-   -------------------------------------------------------------------------- */
+   --------------------------------------------------------------------------
+   Listas de habilidades e grid de formação.
+*/
 .skills-columns {
     display: flex;
     flex-wrap: wrap;
@@ -455,8 +475,10 @@ main {
     margin-right: 0.8rem;
 }
 
-/* 10. SWIPER (DESKTOP)
-   -------------------------------------------------------------------------- */
+/* 10. SWIPER (SLIDES DESKTOP)
+   --------------------------------------------------------------------------
+   Configuração dos carrosséis para Desktop.
+*/
 .certificacoes-swiper-container {
     width: 100%;
     padding: 0 0 3rem;
@@ -532,7 +554,9 @@ main {
 }
 
 /* 11. EXPERIÊNCIA E FOOTER
-   -------------------------------------------------------------------------- */
+   --------------------------------------------------------------------------
+   Seção de experiência e rodapé.
+*/
 .experiencia-wrapper {
     display: flex;
     flex-direction: column;
@@ -627,7 +651,9 @@ main {
 }
 
 /* 12. CHAT ASSISTENTE
-   -------------------------------------------------------------------------- */
+   --------------------------------------------------------------------------
+   Estilos do Chat com IA (Botão flutuante com tempo personalizado 1.42s).
+*/
 #chat-launcher {
     position: fixed;
     bottom: 1.25rem;
@@ -643,7 +669,7 @@ main {
     border: 0.125rem solid #00ff00;
     border-radius: 50%;
     box-shadow: 0 0 1.25rem rgba(0, 255, 0, 0.4);
-    animation: pulse 3s infinite;
+    animation: pulse 1.42s infinite;
 }
 
 #chat-launcher img {
@@ -784,13 +810,16 @@ main {
 
 /* ==========================================================================
    13. RESPONSIVIDADE MOBILE E TELAS HD (ATÉ 816px / 51rem)
+   --------------------------------------------------------------------------
+   Abrange: Todos os celulares, incluindo iPhone Pro Max (430px).
+   Aqui ficam todas as adaptações específicas que você ajustou.
    ========================================================================== */
 @media (max-width: 51rem) {
     html {
         font-size: 14px;
     }
 
-    /* Container mantém o padding lateral */
+    /* Padding lateral do container */
     .container {
         width: 100%;
         padding: 0 1.2rem;
