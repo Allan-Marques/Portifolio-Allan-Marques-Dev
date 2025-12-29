@@ -798,7 +798,7 @@ main {
 }
 
 .blink {
-    animation: blinker 5s linear infinite;
+    animation: blinker 0.5s linear infinite;
     color: #00ff00;
 }
 
