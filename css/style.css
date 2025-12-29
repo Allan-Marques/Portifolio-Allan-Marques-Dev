@@ -798,7 +798,7 @@ main {
 }
 
 .blink {
-    animation: blinker 1.5s linear infinite;
+    animation: blinker 5s linear infinite;
     color: #00ff00;
 }
 
@@ -809,59 +809,226 @@ main {
 }
 
 /* ==========================================================================
-   13. RESPONSIVIDADE MOBILE E TELAS HD (ATÉ 816px / 51rem)
-   --------------------------------------------------------------------------
-   Abrange: Todos os celulares, incluindo iPhone Pro Max (430px).
-   Aqui ficam todas as adaptações específicas que você ajustou.
+   13. RESPONSIVIDADE E AJUSTES FINAIS (CORREÇÃO MOBILE + SLIDES)
    ========================================================================== */
-@media (max-width: 51rem) {
-    html {
-        font-size: 14px;
+
+/* 1. CONTAINER GERAL DOS PROJETOS */
+.cards-wrapper {
+    display: flex;
+    flex-wrap: wrap !important;
+    justify-content: center;
+    gap: 2rem;
+    width: 100%;
+    padding-bottom: 3rem;
+    margin-top: 2rem;
+}
+
+/* --------------------------------------------------------------------------
+   2. PROJETOS NORMAIS (Batalha Naval, Xadrez, Trunfo)
+   -------------------------------------------------------------------------- */
+.card {
+    /* Tamanho e comportamento flexível */
+    flex: 1 1 20rem !important;
+    max-width: 24rem !important;
+    width: auto !important;
+    height: auto !important;
+    /* Altura automática para não cortar o botão */
+
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0 !important;
+    overflow: hidden;
+    /* Garante que a imagem respeite as bordas arredondadas */
+}
+
+/* Imagem dos Projetos */
+.card .card-image {
+    width: 100% !important;
+    height: 13rem !important;
+    object-fit: cover !important;
+    object-position: top center !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 0 !important;
+    /* Remove margens extras */
+}
+
+/* Conteúdo dos Projetos */
+.card .card-content {
+    padding: 0.5rem !important;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.card .btn-secondary {
+    width: 100%;
+    margin-top: 1rem !important;
+    display: block !important;
+    /* Garante que o botão apareça */
+}
+
+
+/* --------------------------------------------------------------------------
+   3. CONFIGURAÇÃO DA PATENTE (ID)
+   -------------------------------------------------------------------------- */
+#card-patente {
+    flex: 1 1 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    border-color: #00ff00 !important;
+    margin-bottom: 1rem !important;
+    display: flex;
+    padding: 0 !important;
+    /* Remove padding do container principal */
+}
+
+
+/* --------------------------------------------------------------------------
+   4. CORREÇÃO DOS SLIDES (SWIPER) - IMPORTANTE
+   Isso impede que as regras de ".card" afetem os slides ".swiper-slide"
+   -------------------------------------------------------------------------- */
+.swiper-slide {
+    display: block !important;
+    /* Reseta o display flex do .card */
+    width: auto !important;
+    /* Deixa o JS do Swiper calcular, ou define fixo abaixo */
+    margin-bottom: 0 !important;
+}
+
+/* Certificados (4/3) */
+.certificacoes-swiper-container .swiper-slide {
+    width: 21rem !important;
+    /* Largura fixa boa para desktop */
+    height: 14rem !important;
+    /* Proporção 4:3 */
+}
+
+/* Galeria Atuação (1/1) */
+.gallery-slide {
+    width: 18rem !important;
+    height: 18rem !important;
+    /* Quadrado */
+}
+
+
+/* --------------------------------------------------------------------------
+   5. MEDIA QUERIES (COMPORTAMENTO NAS TELAS)
+   -------------------------------------------------------------------------- */
+
+/* DESKTOP (PC > 816px) */
+@media (min-width: 51rem) {
+
+    /* Patente Horizontal */
+    #card-patente {
+        flex-direction: row !important;
+        align-items: center !important;
     }
 
-    /* Padding lateral do container */
+    #card-patente .card-content {
+        width: 80% !important;
+        padding: 1rem !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        text-align: left;
+        align-items: flex-start !important;
+    }
+
+    #card-patente .btn-secondary {
+        width: auto !important;
+    }
+
+    #card-patente .card-image {
+        width: 40% !important;
+        height: auto !important;
+        aspect-ratio: 1/1 !important;
+        object-fit: contain !important;
+        background-color: #fff !important;
+        margin: 1.5rem !important;
+        border-radius: 0.5rem !important;
+    }
+}
+
+/* MOBILE (Celular < 816px) */
+@media (max-width: 51rem) {
+    html {
+        font-size: 1rem;
+    }
+
     .container {
         width: 100%;
         padding: 0 1.2rem;
-    }
-
-    header {
-        padding: 0.5rem 0;
-    }
-
-    header h1 {
-        font-size: 1.6rem;
-    }
-
-    header .subtitle {
-        display: none;
-    }
-
-    header nav ul {
-        gap: 0.5rem;
-        margin-top: 0.5rem;
-    }
-
-    header nav ul li a {
-        font-size: 1rem;
-        padding: 0.3rem 0.6rem;
     }
 
     main {
         padding-top: 7.5rem;
     }
 
-    /* LAYOUT EM COLUNA */
+    /* Centraliza tudo */
     .cards-wrapper,
     .skills-columns,
     .formacao-grid {
         flex-direction: column;
-        grid-template-columns: 1fr;
         width: 100%;
         align-items: center;
     }
 
-    /* FIX 1: ÍCONES ACIMA DO TÍTULO */
+    /* --- CORREÇÃO PROJETOS MOBILE --- */
+    .card {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-bottom: 0rem !important;
+        height: auto !important;
+        /* espaco entre os 3 projetos */
+    }
+
+    /* Botao patente */
+    .card .card-content {
+        margin-bottom: 0.5rem !important;
+        /* Espaço extra embaixo */
+    }
+
+    /* --- CORREÇÃO PATENTE MOBILE --- */
+    #card-patente {
+        flex-direction: column !important;
+    }
+
+    #card-patente .card-content {
+        width: 100% !important;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 1.5rem !important;
+        text-align: center;
+        align-items: center !important;
+    }
+
+    #card-patente .card-image {
+        width: 90% !important;
+        /* Um pouco menor que o card para não colar */
+        max-width: 18rem !important;
+        margin: 1.5rem auto !important;
+        height: auto !important;
+        background-color: #fff;
+        border-radius: 0.5rem;
+        padding: 0.5rem;
+        /* Moldura branca */
+    }
+
+    /* --- CORREÇÃO SLIDES MOBILE (LARGURA TOTAL) --- */
+    .certificacoes-swiper-container .swiper-slide {
+        width: 85vw !important;
+        /* 85% da largura da tela */
+        height: auto !important;
+        aspect-ratio: 4/3 !important;
+    }
+
+    .gallery-slide {
+        width: 80vw !important;
+        height: auto !important;
+        aspect-ratio: 1/1 !important;
+    }
+
+    /* Outros ajustes */
     .featured-content {
         flex-direction: column;
         text-align: center;
@@ -872,115 +1039,14 @@ main {
         margin-bottom: 0.5rem;
     }
 
-    .interactive-card h3 {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        text-align: center !important;
-        gap: 0.8rem !important;
-        margin-bottom: 1rem !important;
-    }
-
-    .interactive-card h3 i {
-        margin: 0 !important;
-        font-size: 2.5rem !important;
-        color: #00ff00;
-        line-height: 1 !important;
-    }
-
-    .interactive-card h3 span,
-    .interactive-card h3 strong {
-        margin-top: 0 !important;
-    }
-
-    /* FIX 2: CARD PROJETO (Imagem até a borda) */
-    .card {
-        width: 100% !important;
-        max-width: 100% !important;
-        margin-bottom: 2rem;
-        height: auto !important;
-        padding: 0 !important;
-        border: 0.0625rem solid rgba(0, 255, 0, 0.3);
-        overflow: hidden;
-    }
-
-    .card-image {
-        width: 100%;
-        margin: 0 !important;
-        border: none !important;
-        object-fit: cover;
-        /* Garante preenchimento sem distorcer */
-    }
-
-    .card-content {
-        padding: 1.5rem !important;
-    }
-
-    .card .btn-secondary {
-        display: inline-block !important;
-        width: auto !important;
-        margin: 1rem auto 0 auto;
-        padding: 0.4rem 1.2rem;
-        font-size: 0.85rem;
-        border: 1px solid #00ff00;
-        background: transparent;
-    }
-
-    /* FIX 3: SLIDES CENTRALIZADOS E COM ZOOM (COVER) */
-    /* O segredo da centralização: quebrar o padding do container pai */
+    /* Ajuste margens laterais dos sliders */
     .certificacoes-swiper-container,
     .experiencia-gallery {
-        width: auto !important;
-        /* Deixa a largura se ajustar */
+        width: 100vw !important;
         margin-left: -1.2rem !important;
-        /* Compensa o padding esquerdo do .container */
-        margin-right: -1.2rem !important;
-        /* Compensa o padding direito do .container */
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-    }
-
-    .certificacoes-swiper-container .swiper-slide {
-        width: 90% !important;
-        height: auto !important;
-        aspect-ratio: 4/3;
-        /* Margem automática ajuda o Swiper a centralizar */
-        margin-left: center !important;
-        margin-right: center !important;
-    }
-
-    .gallery-slide {
-        width: 90% !important;
-        height: auto !important;
-        aspect-ratio: 1/1;
-        /* Margem automática ajuda o Swiper a centralizar */
-        margin-left: center !important;
-        margin-right: center !important;
-    }
-
-    /* FIX ZOOM: Usa 'cover' para preencher sem buracos */
-    .certificacoes-swiper-container .swiper-slide img,
-    .gallery-slide img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover !important;
-    }
-
-    /* OUTROS */
-    .skill-category,
-    .formacao-item {
-        width: 100% !important;
-        margin-bottom: 1.5rem;
-    }
-
-    .about-text {
-        padding: 1rem;
-        text-align: left;
-    }
-
-    .section-title {
-        font-size: 2rem;
-        margin-bottom: 2rem;
+        /* Compensa padding do container */
+        padding-left: 1rem;
+        /* Espaço inicial */
     }
 
     #chat-window {
